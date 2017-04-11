@@ -12,27 +12,56 @@ import { Button, Card } from 'react-native-material-design';
 import Tabs from 'react-native-tabs';
 import Accordion from 'react-native-collapsible/Accordion';
 
-const SECTIONS = [
-  {
-    title: 'First',
-    content: 'Lorem ipsum...',
-  },
-  {
-    title: 'Second',
-    content: 'Lorem ipsum...',
+
+// const SECTIONS = [
+//   {
+//     title: 'First',
+//     content: 'Lorem ipsum...',
+//   },
+//   {
+//     title: 'Second',
+//     content: 'Lorem ipsum...',
+//   }
+// ];
+
+@connect(store => ({
+  userobj: store.login.userobj
+}))
+
+
+export default class Challenges extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const chall = [];
+    const pendingchall =[];
+    const compchall= [];
+
+    for (var i=0; i<this.props.userobj.Challenges.length; i++) {
+      if (this.props.userobj.Challenges[i].source === null) {
+      } else {
+        if(this.props.userobj.Challenges[i].status === "completed"){
+          compchall.push(this.props.userobj.Challenges[i]);
+        } else if (this.props.userobj.Challenges[i].status === "pending") {
+        pendingchall.push(this.props.userobj.Challenges[i]);
+        } else {
+          chall.push(this.props.userobj.Challenges[i])
+        }
+      }
+    }
+
+      this.state = {
+        challengesArray: chall,
+        pendingChallArray: pendingchall,
+        compChallArray: compchall
+    };
+  //  this.renderRow = this.renderRow.bind(this);
   }
-];
 
-// @connect(store => ({
-//   userobj: store.login.userobj
-// }))
-
-
-export default class Goals extends React.Component {
   _renderHeader(section) {
     return (
       <View>
-        <Text>{section.title}</Text>
+        <Text>{section.description}</Text>
       </View>
     );
   }
@@ -40,18 +69,27 @@ export default class Goals extends React.Component {
   _renderContent(section) {
     return (
       <View>
-        <Button text={section.content} />
+        <Button text={section.source} />
       </View>
     );
   }
 
   render() {
+    console.log(this.props.userobj, "THIS IS CHALL USER")
+    console.log(this.state, "THIS IS STATE ")
     return (
+      <View>
       <Accordion
-        sections={SECTIONS}
+        sections={this.state.pendingChallArray}
         renderHeader={this._renderHeader}
         renderContent={this._renderContent}
       />
+      <Accordion
+        sections={this.state.challengesArray}
+        renderHeader={this._renderHeader}
+        renderContent={this._renderContent}
+      />
+      </View>
     );
   }
 }
