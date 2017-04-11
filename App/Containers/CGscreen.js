@@ -11,6 +11,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view'
 import RunTrackerScreen from './RunTrackerScreen'
 import GoalsPage from './Goals'
 import ChallengePage from './Challenges'
+import Tabs from 'react-native-tabs';
 
 @connect(store => ({
   userinfo: store.login.username

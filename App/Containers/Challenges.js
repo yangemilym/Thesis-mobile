@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 import axios from 'axios';
 import { StackNavigator } from 'react-navigation'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
+import { Button, Card } from 'react-native-material-design';
+import Tabs from 'react-native-tabs';
 
 
 @connect(store => ({

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, TouchableOpacity, Image, StyleSheet, AppRegistry, ListView } from 'react-native'
+import { View, ScrollView, Text, TouchableHighlight  ,TouchableOpacity, Image, StyleSheet, AppRegistry, ListView } from 'react-native'
 import { Images } from './DevTheme'
 import RoundedButton from '../../App/Components/RoundedButton'
 import { Actions as NavigationActions } from 'react-native-router-flux'
@@ -10,6 +10,9 @@ import { StackNavigator } from 'react-navigation'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import styles from './Styles/LaunchScreenStyles'
 import { Button, Card } from 'react-native-material-design';
+import Tabs from 'react-native-tabs';
+import Accordion from 'react-native-accordion';
+import _ from 'lodash';
 
 
 @connect(store => ({
@@ -20,12 +23,96 @@ export default class Goals extends React.Component {
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    // const goals = _.filter(this.props.userobj.Challenges, (o) => { 
+    //   console.log(o.source);
+    //   return (o.source === null)
+    // });
+    const goals = [];
+    for (var i=0; i<this.props.userobj.Challenges.length; i++) {
+      if (this.props.userobj.Challenges[i].source !== null) {
+      } else {
+        goals.push(this.props.userobj.Challenges[i]);
+      }
+    }
+    console.log(goals)
       this.state = {
-      };
+        challengesArray: goals,
+        dataSource: ds.cloneWithRows(
+        goals
+      )
+    };
+  //  this.renderRow = this.renderRow.bind(this);
+  }
+  
+    /*renderRow() {
+      console.log(this, "This is THISSSSS")
+    var self = this.state.challengesArray
+    console.log(self, "THIS IS SEEELLFFF array")
+    var header = (
+      <View>
+         {self.map((ele, idx) => {
+           if (ele.source === null && ele.status === 'accepted'){
+        return (
+          <Text key={idx}> My Goal: {ele["description"]}</Text>  
+           )
+           } else if (ele.source === null && ele.status === 'generated'){
+              return (
+                <Text key={idx}> Rabbit Goal: {ele["description"]}</Text>
+                )
+           } 
+      })}
+      </View>
+    );*/
+
+    /*var content = (
+      <View>
+        <Text>This content is hidden in the accordion</Text>
+      </View>
+    );
+
+    return (
+      <Accordion
+        header={header}
+        content={content}
+        easing="easeOutCubic"
+      />
+    );
+  }*/
+
+render() {
+
+
+        if(!this.props.userobj){
+        //   console.log("INSIDE")
+      return (
+        <Text>LOADING </Text>
+      )
     }
 
 
-  render () {
+var listItem = (rowData) => {
+  if(rowData.source === null && rowData.status === 'accepted'){
+  return (<Text> My Goal: {rowData.description}</Text>)
+} else {
+  return(<Text> Rabbit Goals:{rowData.description} </Text>)
+}
+}
+  
+    return (
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={listItem}
+      />
+    );
+  }
+
+
+};
+
+
+
+
+ /*render () {
     //   console.log(this.state.data2, "This is data2")
       // console.log(this.props.userobj.Challenges, "this is userobj Challenges")
 
@@ -50,9 +137,11 @@ export default class Goals extends React.Component {
            if (ele.source === null && ele.status === 'accepted'){
         return (
           <Card>
+             <TouchableOpacity onPress={() => this.toggleButton()} >
             <Card.Body>
-          <Text key={idx}> My Goal: {ele["description"]}</Text>
+          <Text key={idx}> My Goal: {ele["description"]}</Text>  
           </Card.Body>
+          </TouchableOpacity>
           </Card>
            )
            } else if (ele.source === null && ele.status === 'generated'){
@@ -70,7 +159,7 @@ export default class Goals extends React.Component {
       </View>
     )
   }
-}
+}*/
 
 
 
