@@ -28,13 +28,19 @@ export default class Goals extends React.Component {
     //   return (o.source === null)
     // });
     const goals = [];
+    const compGoals= [];
     for (var i=0; i<this.props.userobj.Challenges.length; i++) {
       if (this.props.userobj.Challenges[i].source !== null) {
       } else {
-        goals.push(this.props.userobj.Challenges[i]);
+        if(this.props.userobj.Challenges[i].status !== "completed"){
+          goals.push(this.props.userobj.Challenges[i]);
+        } else {
+        compGoals.push(this.props.userobj.Challenges[i]);
+        }
       }
     }
     console.log(goals)
+    console.log(compGoals, "THIS IS COMP GOALS")
       this.state = {
         challengesArray: goals,
         dataSource: ds.cloneWithRows(
@@ -44,27 +50,14 @@ export default class Goals extends React.Component {
   //  this.renderRow = this.renderRow.bind(this);
   }
   
-    /*renderRow() {
-      console.log(this, "This is THISSSSS")
-    var self = this.state.challengesArray
-    console.log(self, "THIS IS SEEELLFFF array")
+_renderRow() {
     var header = (
       <View>
-         {self.map((ele, idx) => {
-           if (ele.source === null && ele.status === 'accepted'){
-        return (
-          <Text key={idx}> My Goal: {ele["description"]}</Text>  
-           )
-           } else if (ele.source === null && ele.status === 'generated'){
-              return (
-                <Text key={idx}> Rabbit Goal: {ele["description"]}</Text>
-                )
-           } 
-      })}
+        <Text>Click to Expand</Text>
       </View>
-    );*/
+    );
 
-    /*var content = (
+    var content = (
       <View>
         <Text>This content is hidden in the accordion</Text>
       </View>
@@ -77,7 +70,8 @@ export default class Goals extends React.Component {
         easing="easeOutCubic"
       />
     );
-  }*/
+  }
+
 
 render() {
 
@@ -92,9 +86,9 @@ render() {
 
 var listItem = (rowData) => {
   if(rowData.source === null && rowData.status === 'accepted'){
-  return (<Text> My Goal: {rowData.description}</Text>)
+  return (<Card><Card.Body><Text> My Goal: {rowData.description}</Text></Card.Body></Card>)
 } else {
-  return(<Text> Rabbit Goals:{rowData.description} </Text>)
+  return(<Card><Card.Body><Text> Rabbit Goals:{rowData.description} </Text></Card.Body></Card>)
 }
 }
   
