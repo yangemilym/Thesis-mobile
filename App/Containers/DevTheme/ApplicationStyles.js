@@ -50,12 +50,12 @@ const ApplicationStyles = {
     },
     popup: {
       width: '90%',
-      height: 190,
+      height: 260,
       borderColor: 'salmon',
       borderWidth: 3
     },
     popupText: {
-      fontSize: 38,
+      fontSize: 32,
       textAlign: 'center',
       marginTop: 15
     }
