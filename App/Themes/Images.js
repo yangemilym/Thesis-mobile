@@ -25,4 +25,4 @@ const images = {
   // badge: require('../Images/Icons/badgered.png')
 }
 
-export default images
+export default images;

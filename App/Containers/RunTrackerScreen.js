@@ -25,6 +25,7 @@ class RunTrackerScreen extends React.Component {
         start: '', 
         end: '',
         timeMsg: '',
+        distanceMsg: '',
         initialPosition: {},
         lastPosition: {},
         coordinates: [], 
@@ -153,16 +154,15 @@ class RunTrackerScreen extends React.Component {
     var minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
     var seconds = totalSeconds - (hours * 3600) - (minutes * 60);
     if (totalSeconds >= 3600) {
-      var timeMsg = 'Total time: \n' + hours + ' hr \n' + minutes + ' min ' + seconds.toFixed(2) + ' sec';
+      var timeMsg = 'Total time: \n' + hours + ' hr \n' + minutes + ' min ' + seconds.toFixed(2) + ' sec \n';
     } else {
-      var timeMsg = 'Total time: \n' + minutes + ' min ' + seconds.toFixed(2) + ' sec';
+      var timeMsg = 'Total time: \n' + minutes + ' min ' + seconds.toFixed(2) + ' sec \n';
     }
-    this.setState({text: 'start', timerOpacity: 0.0, timer: '0:00', end: endTime, timeMsg: timeMsg});
+    var distanceMsg = 'Distance: \n' + this.state.distance.toFixed(2) + ' miles'; 
+    this.setState({text: 'start', timerOpacity: 0.0, timer: '0:00', distance: 0, end: endTime, timeMsg, distanceMsg, coordinates: []});
     this.popupDialog.show();
     navigator.geolocation.clearWatch(this.watchID)
-
   }
-
 
   watchID: ?number = null;
 
@@ -197,7 +197,7 @@ class RunTrackerScreen extends React.Component {
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           >
           <View >
-            <Text style={styles.popupText}>{this.state.timeMsg}</Text>
+            <Text style={styles.popupText}>{this.state.timeMsg + this.state.distanceMsg}</Text>
             <RoundedButton text="okay" onPress={() => {this.popupDialog.dismiss()}}> 
             </RoundedButton>
           </View>
@@ -221,12 +221,11 @@ class RunTrackerScreen extends React.Component {
        {this.state.timer || '0:00'}
 
     </Text>
-    <Text style={{fontSize: 50, paddingTop: 0, paddingBottom: 0}}>
+    <Text style={{fontSize: 50, paddingTop: 0, paddingBottom: 0, opacity: this.state.timerOpacity}}>
        {this.state.distance.toFixed(2)} miles
     </Text>
     
     </View>
-          <View style={styles.section} />
           <View
             style={{
               alignItems: 'center'
