@@ -1,4 +1,142 @@
 import React, { Component } from 'react';
+import { View, ScrollView, Text, TouchableOpacity, Image, StyleSheet, AppRegistry, ListView } from 'react-native'
+import { Images } from './DevTheme'
+import RoundedButton from '../../App/Components/RoundedButton'
+import { Actions as NavigationActions } from 'react-native-router-flux'
+import PopupDialog, {dialogStyle} from 'react-native-popup-dialog';
+import { connect } from 'react-redux'
+import axios from 'axios';
+import { StackNavigator } from 'react-navigation'
+import ScrollableTabView from 'react-native-scrollable-tab-view'
+import { Button, Card } from 'react-native-material-design';
+import Tabs from 'react-native-tabs';
+import Accordion from 'react-native-collapsible/Accordion';
+
+
+// const SECTIONS = [
+//   {
+//     title: 'First',
+//     content: 'Lorem ipsum...',
+//   },
+//   {
+//     title: 'Second',
+//     content: 'Lorem ipsum...',
+//   }
+// ];
+
+@connect(store => ({
+  userobj: store.login.userobj
+}))
+
+
+export default class Goals extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const goals = [];
+    const genGoals =[];
+    const compGoals= [];
+
+    for (var i=0; i<this.props.userobj.Challenges.length; i++) {
+      if (this.props.userobj.Challenges[i].source !== null) {
+      } else {
+        if(this.props.userobj.Challenges[i].status === "completed"){
+          compGoals.push(this.props.userobj.Challenges[i]);
+        } else if (this.props.userobj.Challenges[i].status === "generated"){
+          genGoals.push(this.props.userobj.Challenges[i]);
+        } else {
+          goals.push(this.props.userobj.Challenges[i])
+        }
+      }
+    }
+
+      this.state = {
+        goalsArray: goals,
+        genGoalsArray: genGoals,
+        compGoalsArray: compGoals
+    };
+  //  this.completeMe = this.completeMe.bind(this);
+   
+}
+
+
+  _renderHeader(section) {
+    return (
+      <View>
+        <Card style={{backgroundColor: "purple" }}><Card.Body><Text style={{color:"white"}}> My Goals: {section.description}</Text></Card.Body></Card>
+      </View>
+    );
+  }
+
+  _renderHeaderGen(section) {
+    return (
+      <View>
+         <Card><Card.Body><Text>Rabbit Goals: {section.description}</Text></Card.Body></Card>
+      </View>
+    );
+  }
+
+  _renderContent(section) {
+
+completeMe = () => {
+ console.log("hi")
+};
+
+deleteMe = () => {
+ console.log("deleted")
+};
+
+    return (
+      <View>
+        <Button onPress={() => completeMe()}text={"Complete"} />
+         <Button onPress={() => deleteMe()} text={"Delete"} />
+      </View>
+    );
+  }
+
+    _renderContentGen(section) {
+    return (
+      <View>
+        <Button text={"Button"} />
+         <Button text={"Button"} />
+      </View>
+    );
+  }
+
+  render() {
+    console.log(this.props.userobj, "THIS IS CHALL USER")
+    console.log(this.state, "THIS IS STATE ")
+
+    return (
+      <View>
+      <Accordion
+        sections={this.state.goalsArray}
+        renderHeader={this._renderHeader}
+        renderContent={this._renderContent}
+      />
+      <Accordion
+        sections={this.state.genGoalsArray}
+        renderHeader={this._renderHeaderGen}
+        renderContent={this._renderContentGen}
+      />
+      </View>
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*import React, { Component } from 'react';
 import { View, ScrollView, Text, TouchableHighlight  ,TouchableOpacity, Image, StyleSheet, AppRegistry, ListView } from 'react-native'
 import { Images } from './DevTheme'
 import RoundedButton from '../../App/Components/RoundedButton'
@@ -101,7 +239,7 @@ var listItem = (rowData) => {
   }
 
 
-};
+};*/
 
 
 
