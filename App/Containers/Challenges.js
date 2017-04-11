@@ -10,13 +10,58 @@ import { StackNavigator } from 'react-navigation'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import { Button, Card } from 'react-native-material-design';
 import Tabs from 'react-native-tabs';
+import Accordion from 'react-native-collapsible/Accordion';
 
+const SECTIONS = [
+  {
+    title: 'First',
+    content: 'Lorem ipsum...',
+  },
+  {
+    title: 'Second',
+    content: 'Lorem ipsum...',
+  }
+];
 
-@connect(store => ({
-  userobj: store.login.userobj
-}))
+// @connect(store => ({
+//   userobj: store.login.userobj
+// }))
+
 
 export default class Goals extends React.Component {
+  _renderHeader(section) {
+    return (
+      <View>
+        <Text>{section.title}</Text>
+      </View>
+    );
+  }
+
+  _renderContent(section) {
+    return (
+      <View>
+        <Button text={section.content} />
+      </View>
+    );
+  }
+
+  render() {
+    return (
+      <Accordion
+        sections={SECTIONS}
+        renderHeader={this._renderHeader}
+        renderContent={this._renderContent}
+      />
+    );
+  }
+}
+
+
+
+
+/*
+export default class Goals extends React.Component {
+
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -56,4 +101,4 @@ export default class Goals extends React.Component {
       </View>
     )
   }
-}
+}*/
