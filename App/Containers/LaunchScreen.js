@@ -78,7 +78,7 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
           </View>
           <View style={{paddingTop: 25}}>
             <View style={styles.buttonsContainer}>
-              <ButtonBox onPress={NavigationActions.runTracker} style={styles.componentButton} image={Images.colorRun} text="View my Packs" />
+              <ButtonBox onPress={NavigationActions.packsScreen} style={styles.componentButton} image={Images.colorRun} text="View my Packs" />
               <ButtonBox onPress={NavigationActions.cgscreen} style={styles.usageButton} image={Images.home} text='Challenges & Goals' />
             </View>
           </View>

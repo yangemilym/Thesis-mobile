@@ -9,6 +9,7 @@ import RunTracker from '../Containers/RunTrackerScreen'
 import LoginScreen from '../Containers/LoginScreen'
 import CGscreen from '../Containers/CGscreen'
 import Goalscreen from '../Containers/Goals'
+import PacksScreen from '../Containers/PacksScreen'
 
 /* **************************
 * Documentation: https://github.com/aksonov/react-native-router-flux
@@ -25,6 +26,7 @@ class NavigationRouter extends Component {
             <Scene key='runTracker' component={RunTracker} title='LaunchScreen' hideNavBar />
             <Scene key='cgscreen' component={CGscreen} title='LaunchScreen' hideNavBar />
             <Scene key='goalscreen' component={Goalscreen} title='LaunchScreen' hideNavBar />
+            <Scene key='packsScreen' component={PacksScreen} title='LaunchScreen' hideNavBar />
           </Scene>
         </Scene>
       </Router>

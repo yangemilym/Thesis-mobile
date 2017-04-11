@@ -8,7 +8,8 @@ const { Types, Creators } = createActions({
   loginSuccess: ['username'],
   loginUpdate: ['userobj'],
   loginFailure: ['error'],
-  logout: null
+  logout: null,
+  setCurrentPack: ['name']
 })
 
 export const LoginTypes = Types
@@ -20,7 +21,8 @@ export const INITIAL_STATE = Immutable({
   username: null,
   userobj: null,
   error: null,
-  fetching: false
+  fetching: false,
+  currentPack: null
 })
 
 /* ------------- Reducers ------------- */
@@ -30,7 +32,7 @@ export const request = (state) => state.merge({ fetching: true })
 
 // we've successfully logged in
 export const success = (state, { username }) =>
-  state.merge({ fetching: false, error: null, username })
+state.merge({ fetching: false, error: null, username })
 
 export const update = (state, { userobj }) => 
   state.merge({ fetching: false, error: null, userobj })
@@ -38,10 +40,14 @@ export const update = (state, { userobj }) =>
 
 // we've had a problem logging in
 export const failure = (state, { error }) =>
-  state.merge({ fetching: false, error })
+state.merge({ fetching: false, error })
 
 // we've logged out
 export const logout = (state) => INITIAL_STATE
+
+//set pack
+export const setpack = (state, { name }) =>
+state.merge({ currentPack: name })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -50,7 +56,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_UPDATE]: update,
   [Types.LOGIN_SUCCESS]: success,
   [Types.LOGIN_FAILURE]: failure,
-  [Types.LOGOUT]: logout
+  [Types.LOGOUT]: logout,
+  [Types.SET_CURRENT_PACK]: setpack
 })
 
 /* ------------- Selectors ------------- */

@@ -6,12 +6,13 @@ import MapView from 'react-native-maps'
 import styles from './Styles/RunTrackerScreenStyles'
 import RoundedButton from '../../App/Components/RoundedButton'
 import { Actions as NavigationActions } from 'react-native-router-flux'
-import PopupDialog, {dialogStyle} from 'react-native-popup-dialog';
+import PopupDialog, {dialogStyle} from 'react-native-popup-dialog'
 import { connect } from 'react-redux'
-import axios from 'axios';
+import axios from 'axios'
 
 @connect(store => ({
-  userinfo: store.login.username
+  userinfo: store.login.username,
+  currentPack: store.login.currentPack
 }))
 
 class RunTrackerScreen extends React.Component {
@@ -27,9 +28,10 @@ class RunTrackerScreen extends React.Component {
         initialPosition: {},
         lastPosition: {},
         coordinates: [], 
-        distance: 0
+        distance: 0,
       };
-    }
+      console.log(this.props)
+  }
 
   handleClick = () => {
     if (this.state.text === 'start') {
@@ -40,13 +42,13 @@ class RunTrackerScreen extends React.Component {
   }
 
   calcDistance = (lat1, lon1, lat2, lon2, unit) => {
-    var radlat1 = Math.PI * lat1/180
-	var radlat2 = Math.PI * lat2/180
+    var radlat1 = Math.PI * lat1/ 180
+	var radlat2 = Math.PI * lat2/ 180
 	var theta = lon1-lon2
-	var radtheta = Math.PI * theta/180
+	var radtheta = Math.PI * theta/ 180
 	var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
 	dist = Math.acos(dist)
-	dist = dist * 180/Math.PI
+	dist = dist * 180 / Math.PI
 	dist = dist * 60 * 1.1515
 	if (unit=="K") { dist = dist * 1.609344 }
 	if (unit=="N") { dist = dist * 0.8684 }
@@ -79,11 +81,11 @@ class RunTrackerScreen extends React.Component {
     }, 
       (error) => console.log(error),
       { enableHighAccuracy: true, timeout: 250, maximumAge: 0, desiredAccuracy: 0, frequency: 1 })
-    var startTime = (Date.now()/1000).toFixed(2);
+    var startTime = (Date.now()/ 1000).toFixed(2);
     this.setState({text: 'stop', timerOpacity: 1.0, start: startTime});
     var startTimeSeconds = Math.floor(startTime);
     var sw = setInterval(() => {
-      var currentTimeSeconds = Math.floor(Date.now()/1000);
+      var currentTimeSeconds = Math.floor(Date.now()/ 1000);
       var secondsElapsed = currentTimeSeconds - startTimeSeconds;
       var hours = Math.floor(secondsElapsed / 3600);
       var minutes = Math.floor((secondsElapsed - (hours * 3600)) / 60);
@@ -108,7 +110,7 @@ class RunTrackerScreen extends React.Component {
   }
 
   stopTimer = () => {
-    var endTime = (Date.now()/1000).toFixed(2);
+    var endTime = (Date.now() / 1000).toFixed(2);
     var totalSeconds = (endTime - this.state.start).toFixed(2);
     var runHistoryEntry = {
       duration: totalSeconds,
@@ -117,7 +119,11 @@ class RunTrackerScreen extends React.Component {
       initialPosition: this.state.initialPosition,
       today: Date.now(),
       userID: this.props.userinfo.userId,
+      currentPack: this.props.currentPack,
+      //current pack called from props here, not in state
+      //this.props = { dispatch, navigation, userinfo }
     }
+    console.log(runHistoryEntry);
     axios.post('https://lemiz2.herokuapp.com/api/runHistory', { params: {
       runHistoryEntry
     }})
@@ -176,7 +182,6 @@ class RunTrackerScreen extends React.Component {
   }
 
   render () {
-    console.log(this.state.distance, "THIS IS DISTANCE")
     if(!this.state.initialPosition.latitude){
       return (
         <Text style={styles.title}>LOADING </Text>
@@ -196,7 +201,7 @@ class RunTrackerScreen extends React.Component {
             <RoundedButton text="okay" onPress={() => {this.popupDialog.dismiss()}}> 
             </RoundedButton>
           </View>
-         </PopupDialog>
+          </PopupDialog>
         </View>
 
         <TouchableOpacity onPress={() => NavigationActions.pop()} style={{
@@ -250,7 +255,7 @@ class RunTrackerScreen extends React.Component {
             />
             </MapView.Animated>
           </View>
-         <RoundedButton
+          <RoundedButton
             text={this.state.text}
             onPress={this.handleClick}
           />
