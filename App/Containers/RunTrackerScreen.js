@@ -13,26 +13,29 @@ import ButtonBox from './ButtonBox'
 
 @connect(store => ({
   userinfo: store.login.username,
-  currentPack: store.login.currentPack
+  currentPack: store.login.currentPack,
+  pack: store.login.userobj.Packs,
+  userID: store.login.userobj.id
 }))
 
 class RunTrackerScreen extends React.Component {
   constructor(props) {
     super(props);
-      this.state = {
-        text: 'start',
-        timerOpacity: 0.0,
-        timer: '',
-        start: '', 
-        end: '',
-        timeMsg: '',
-        initialPosition: {},
-        lastPosition: {latitude: 33.9759, longitude: -118.3907},
-        coordinates: [], 
-        distance: 0,
-        pack: '',
-      };
-      console.log(this.props)
+    this.state = {
+      text: 'start',
+      timerOpacity: 0.0,
+      timer: '',
+      start: '',
+      end: '',
+      timeMsg: '',
+      initialPosition: {},
+      lastPosition: {latitude: 33.9759, longitude: -118.3907},
+      coordinates: [],
+      distance: 0,
+      pack: '',
+      threeMileSet: false,
+      totalSeconds: 0
+    };
   }
 
   handleClick = () => {
@@ -93,7 +96,28 @@ class RunTrackerScreen extends React.Component {
         }});
         this.setState({
           coordinates: [...this.state.coordinates, {latitude: position.coords.latitude, longitude: position.coords.longitude}]
-        })
+        });
+
+        if (this.state.totalSeconds > 720 && this.state.distance >= 3 && !this.state.threeMileSet) {
+          this.setState({threeMileSet: true});
+          var threeMileTime = this.state.totalSeconds;
+          for (var i = 0; i < this.props.pack.length; i++) {
+            if (this.props.pack[i].name === this.props.currentPack && (
+                this.props.pack[i].Users_Packs.bestThreeMile > threeMileTime || this.props.pack[i].Users_Packs.bestThreeMile === null)) {
+              axios.put('https://lemiz2.herokuapp.com/api/king', {
+                bestThreeMile: threeMileTime,
+                PackId: this.props.pack[i].id,
+                UserId: this.props.userID
+              })
+              .then((result) => {
+                console.log("axios sent: " + result)
+              })
+              .catch((err) => {
+                console.log("Put Error: ", err)
+              })
+            }
+          }
+        }
       },
       (error) => console.log(error),
       {enableHighAccuracy: true, maximumAge: 0, desiredAccuracy: 0}
@@ -105,6 +129,7 @@ class RunTrackerScreen extends React.Component {
     var sw = setInterval(() => {
       var currentTimeSeconds = Math.floor(Date.now()/ 1000);
       var secondsElapsed = currentTimeSeconds - startTimeSeconds;
+      this.setState({totalSeconds: secondsElapsed})
       var hours = Math.floor(secondsElapsed / 3600);
       var minutes = Math.floor((secondsElapsed - (hours * 3600)) / 60);
       var seconds = Math.floor(secondsElapsed - (hours * 3600) - (minutes * 60));
