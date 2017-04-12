@@ -81,9 +81,40 @@ class Goals extends React.Component {
   }
 
   _renderContent(section) {
+    // console.log(this.state.compGoalsArray,"THIS IS COMPLETED GOALLSSS ")
 
     completeMe = (section) => {
-    console.log(section, "THIS IS SECCCC")
+
+        axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'put',
+          data: { id: section.id }
+        }).then((res) => {
+    
+          var goalsCopy = this.state.goalsArray.slice();
+          for (var i = 0; i < goalsCopy.length; i++) {
+            if (goalsCopy[i].id === section.id) {
+             goalsCopy[i].status = 'completed';
+             goalsCopy.splice(i, 1);
+      
+            }
+          }
+  
+          this.setState({goalsArray: goalsCopy});
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges[i].status = 'completed';
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+
+
+
+
     };
 
     deleteMe = (section) => {
@@ -122,9 +153,40 @@ class Goals extends React.Component {
   }
 
     _renderContentGen(section) {
+          console.log(this.state.compGoalsArray,"THIS IS COMPLETED GOALLSSS ")
 
     completeMe = (section) => {
-    console.log(section, "THIS IS SECCCC")
+
+ axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'put',
+          data: { id: section.id }
+        }).then((res) => {
+    
+          var goalsCopy = this.state.genGoalsArray.slice();
+          for (var i = 0; i < goalsCopy.length; i++) {
+            if (goalsCopy[i].id === section.id) {
+             goalsCopy[i].status = 'completed';
+             goalsCopy.splice(i, 1);
+      
+            }
+          }
+  
+          this.setState({genGoalsArray: goalsCopy});
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges[i].status = 'completed';
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+
+
+
+
     };
 
     deleteMe = (section) => {
@@ -136,7 +198,7 @@ class Goals extends React.Component {
         }).then((res) => {
           console.log(this.state.genGoalsArray, "This is gengoals")
           var goalsCopy = this.state.genGoalsArray.slice();
-          for (var i = 0; i < genGoalsArray.length; i++) {
+          for (var i = 0; i < goalsCopy.length; i++) {
             if (goalsCopy[i].id === section.id) {
               goalsCopy.splice(i, 1);
             }
