@@ -15,7 +15,9 @@ import LoginActions from '../Redux/LoginRedux'
 
 @connect(store => ({
   userinfo: store.login.username,
-  currentPack: store.login.currentPack, 
+  currentPack: store.login.currentPack,
+  pack: store.login.userobj.Packs,
+  userID: store.login.userobj.id
   userobj: store.login.userobj,
 }))
 
@@ -36,6 +38,8 @@ class RunTrackerScreen extends React.Component {
         pack: '',
         showPackModal: false,
         mounted: true,
+        threeMileSet: false,
+        totalSeconds: 0
       };
   }
 
@@ -97,7 +101,28 @@ class RunTrackerScreen extends React.Component {
         }});
         this.setState({
           coordinates: [...this.state.coordinates, {latitude: position.coords.latitude, longitude: position.coords.longitude}]
-        })
+        });
+
+        if (this.state.totalSeconds > 720 && this.state.distance >= 3 && !this.state.threeMileSet) {
+          this.setState({threeMileSet: true});
+          var threeMileTime = this.state.totalSeconds;
+          for (var i = 0; i < this.props.pack.length; i++) {
+            if (this.props.pack[i].name === this.props.currentPack && (
+                this.props.pack[i].Users_Packs.bestThreeMile > threeMileTime || this.props.pack[i].Users_Packs.bestThreeMile === null)) {
+              axios.put('https://lemiz2.herokuapp.com/api/king', {
+                bestThreeMile: threeMileTime,
+                PackId: this.props.pack[i].id,
+                UserId: this.props.userID
+              })
+              .then((result) => {
+                console.log("axios sent: " + result)
+              })
+              .catch((err) => {
+                console.log("Put Error: ", err)
+              })
+            }
+          }
+        }
       },
       (error) => console.log(error),
       {enableHighAccuracy: true, maximumAge: 0, desiredAccuracy: 0}
@@ -109,6 +134,7 @@ class RunTrackerScreen extends React.Component {
     var sw = setInterval(() => {
       var currentTimeSeconds = Math.floor(Date.now()/ 1000);
       var secondsElapsed = currentTimeSeconds - startTimeSeconds;
+      this.setState({totalSeconds: secondsElapsed})
       var hours = Math.floor(secondsElapsed / 3600);
       var minutes = Math.floor((secondsElapsed - (hours * 3600)) / 60);
       var seconds = Math.floor(secondsElapsed - (hours * 3600) - (minutes * 60));
