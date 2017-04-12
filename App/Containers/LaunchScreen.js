@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, Text, Image, View } from 'react-native'
+import { ScrollView, TouchableOpacity, Text, Image, View } from 'react-native'
 import { Images } from '../Themes'
 import ButtonBox from './ButtonBox'
 import {Actions as NavigationActions } from 'react-native-router-flux'
@@ -9,6 +9,8 @@ import styles from './Styles/LaunchScreenStyles'
 import userDefaults from 'react-native-user-defaults'
 import axios from 'axios';
 import RoundedButton from '../../App/Components/RoundedButton'
+import Modal from 'react-native-modalbox';
+import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
 
 var Auth0Lock = require('react-native-lock');
@@ -19,7 +21,7 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
   constructor (props) {
     super(props)
     this.state = {
-
+      selected: true,
     }
 
     this.showLogin = this.showLogin.bind(this)
@@ -61,6 +63,10 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
     } 
   }
 
+  packSetter(name) {
+      this.props.setPack(name);
+  }
+
   render () {
     console.log(this.props.userobj, "THIS IS PROPS")
     return (
@@ -82,8 +88,90 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
               <ButtonBox onPress={NavigationActions.cgscreen} style={styles.usageButton} image={Images.home} text='Challenges & Goals' />
             </View>
           </View>
-
         </ScrollView>
+        {!this.props.userobj ? <View></View> : <Modal style={{justifyContent: 'center', alignItems: 'center', height: 500, width: 300}} isOpen={true} onClosed={() => this.setState({isOpen: false})} position={"center"} >
+            <TouchableOpacity onPress={() => NavigationActions.pop()}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={[{
+              height: 24,
+              width: 24,
+              borderRadius: 12,
+              borderWidth: 2,
+              borderColor: '#000',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }]}>
+              {
+                this.state.selected ?
+                  <View style={{
+                    height: 12,
+                    width: 12,
+                    borderRadius: 6,
+                    backgroundColor: '#000',
+                  }}/>
+                  : null
+              }
+            </View>
+              <Text> Run Solo</Text>
+              </View>
+            </TouchableOpacity>
+              {this.props.userobj.Packs.map((ele, idx) => {
+                    return (
+                        <TouchableOpacity onPress={() => this.packSetter(ele["name"])}>
+                        
+                        <View style={{flexDirection: 'row'}}>
+                        <View style={[{
+                        height: 24,
+                        width: 24,
+                        borderRadius: 12,
+                        borderWidth: 2,
+                        borderColor: '#000',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }]}>
+                        {
+                          false ?
+                            <View style={{
+                              height: 12,
+                              width: 12,
+                              borderRadius: 6,
+                              backgroundColor: '#000',
+                            }}/>
+                            : null
+                        }
+                      </View>
+                        <Text> {ele["name"]}</Text>
+                        </View>
+                        </TouchableOpacity>
+                    )
+                })
+              }
+            <TouchableOpacity onPress={() => NavigationActions.pop()}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={[{
+              height: 24,
+              width: 24,
+              borderRadius: 12,
+              borderWidth: 2,
+              borderColor: '#000',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }]}>
+              {
+                false ?
+                  <View style={{
+                    height: 12,
+                    width: 12,
+                    borderRadius: 6,
+                    backgroundColor: '#000',
+                  }}/>
+                  : null
+              }
+            </View>
+              <Text> Option 2</Text>
+              </View>
+            </TouchableOpacity> 
+          </Modal> }
       </View>
     )
   }
@@ -100,7 +188,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     success: (username) => dispatch(LoginActions.loginSuccess(username)),
-    updateuser: (userobj) => dispatch(LoginActions.loginUpdate(userobj))
+    updateuser: (userobj) => dispatch(LoginActions.loginUpdate(userobj)),
+    setPack: (name) => dispatch(LoginActions.setCurrentPack(name))
+
   }
 }
 
