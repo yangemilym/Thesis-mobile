@@ -13,24 +13,6 @@ import Tabs from 'react-native-tabs';
 import Accordion from 'react-native-collapsible/Accordion';
 import LoginActions from '../Redux/LoginRedux'
 
-
-// const SECTIONS = [
-//   {
-//     title: 'First',
-//     content: 'Lorem ipsum...',
-//   },
-//   {
-//     title: 'Second',
-//     content: 'Lorem ipsum...',
-//   }
-// ];
-
-// @connect(store => ({
-//   userobj: store.login.userobj,
-  
-// }))
-
-
 class Goals extends React.Component {
   constructor(props) {
     super(props);
@@ -39,6 +21,9 @@ class Goals extends React.Component {
     const genGoals =[];
     const compGoals= [];
 
+//- taking userobj from store & filtering the Challenges array by 
+//mygoals, generated goals and completed goals
+console.log(this.props, "THIS IS PROPPPS IN GOALS")
     for (var i=0; i<this.props.userobj.Challenges.length; i++) {
       if (this.props.userobj.Challenges[i].source !== null) {
       } else {
@@ -51,16 +36,16 @@ class Goals extends React.Component {
         }
       }
     }
-
+//setting state to be equaled to the filtered arrays from above
       this.state = {
         goalsArray: goals,
         genGoalsArray: genGoals,
         compGoalsArray: compGoals
     };
-  //  this.completeMe = this.completeMe.bind(this);
+//binding this 
   this._renderContent = this._renderContent.bind(this);
   this._renderContentGen = this._renderContentGen.bind(this);
-  // var self = this;
+
 }
 
 
@@ -111,10 +96,6 @@ class Goals extends React.Component {
           }
           this.props.updateuser(newUserObj)
         })
-
-
-
-
     };
 
     deleteMe = (section) => {
@@ -153,7 +134,7 @@ class Goals extends React.Component {
   }
 
     _renderContentGen(section) {
-          console.log(this.state.compGoalsArray,"THIS IS COMPLETED GOALLSSS ")
+          // console.log(this.state.compGoalsArray,"THIS IS COMPLETED GOALLSSS ")
 
     completeMe = (section) => {
 
@@ -183,14 +164,9 @@ class Goals extends React.Component {
           }
           this.props.updateuser(newUserObj)
         })
-
-
-
-
     };
 
     deleteMe = (section) => {
-      console.log(section, "THIS IS SECCCC")
         axios.request({
           url: 'https://lemiz2.herokuapp.com/api/goals',
           method: 'delete',
@@ -229,9 +205,8 @@ class Goals extends React.Component {
 
 
   render() {
-    console.log(this.props.userobj, "THIS IS CHALL USER")
-    console.log(this.state, "THIS IS STATE ")
-
+    // console.log(this.props.userobj, "THIS IS CHALL USER")
+    // console.log(this.state, "THIS IS STATE ")
     return (
       <View>
       <Accordion
@@ -248,8 +223,6 @@ class Goals extends React.Component {
     );
   }
 }
-
-
 
 const mapStateToProps = (state) => {
   return {

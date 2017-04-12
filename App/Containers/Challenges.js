@@ -11,25 +11,10 @@ import ScrollableTabView from 'react-native-scrollable-tab-view'
 import { Button, Card } from 'react-native-material-design';
 import Tabs from 'react-native-tabs';
 import Accordion from 'react-native-collapsible/Accordion';
+import LoginActions from '../Redux/LoginRedux'
 
 
-// const SECTIONS = [
-//   {
-//     title: 'First',
-//     content: 'Lorem ipsum...',
-//   },
-//   {
-//     title: 'Second',
-//     content: 'Lorem ipsum...',
-//   }
-// ];
-
-@connect(store => ({
-  userobj: store.login.userobj
-}))
-
-
-export default class Challenges extends React.Component {
+class Challenge extends React.Component {
   constructor(props) {
     super(props);
 
@@ -56,23 +41,173 @@ export default class Challenges extends React.Component {
         compChallArray: compchall
     };
   //  this.renderRow = this.renderRow.bind(this);
+  this._renderContent = this._renderContent.bind(this);
+  this._renderContentPend = this._renderContentPend.bind(this);
+  }
+
+  _renderHeaderPend(section) {
+    return (
+      <View>
+         <Card style={{backgroundColor: "blue" }}><Card.Body><Text style={{color:"white"}}>Pending{section.description}</Text></Card.Body></Card>
+      </View>
+    );
   }
 
   _renderHeader(section) {
     return (
       <View>
-        <Text>{section.description}</Text>
+         <Card><Card.Body><Text>Accepted: {section.description}</Text></Card.Body></Card>
       </View>
     );
   }
 
-  _renderContent(section) {
+
+
+    _renderContentPend(section) {
+    acceptMe = (section) => {
+
+        axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'put',
+          data: { id: section.id }
+        }).then((res) => {
+    
+          var challCopy = this.state.pendingChallArray.slice();
+          var challaccept =this.state.challengesArray.slice()
+          for (var i = 0; i < challCopy.length; i++) {
+            if (challCopy[i].id === section.id) {
+             challCopy[i].status = 'accepted';
+             console.log(challCopy[i], "THIS IS CHALL CHII")
+             challaccept.push(challCopy[i])
+             challCopy.splice(i, 1);
+             
+             
+      
+            }
+          }
+  
+          this.setState({pendingChallArray: challCopy});
+          this.setState({challengesArray: challaccept});
+
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges[i].status = 'accepted';
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+    };
+
+    deleteMe = (section) => {
+        axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'delete',
+          data: { id: section.id }
+        }).then((res) => {
+    
+          var challCopy = this.state.pendingChallArray.slice();
+          for (var i = 0; i < challCopy.length; i++) {
+            if (challCopy[i].id === section.id) {
+              challCopy.splice(i, 1);
+              
+            }
+          }
+  
+          this.setState({pendingChallArray: challCopy});
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges.splice(i,1);
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+    };
+
     return (
       <View>
-        <Button text={section.source} />
+        <Button onPress={() => acceptMe(section)}text={"Accept"} />
+         <Button onPress={() => deleteMe(section)} text={"Delete"} />
+      </View>
+    );
+
+
+
+  }
+
+
+  _renderContent(section) {
+
+    completeMe = (section) => {
+
+        axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'put',
+          data: { id: section.id }
+        }).then((res) => {
+    
+          var goalsCopy = this.state.challengesArray.slice();
+          for (var i = 0; i < goalsCopy.length; i++) {
+            if (goalsCopy[i].id === section.id) {
+             goalsCopy[i].status = 'completed';
+             goalsCopy.splice(i, 1);
+      
+            }
+          }
+  
+          this.setState({challengesArray: goalsCopy});
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges[i].status = 'completed';
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+    };
+
+    deleteMe = (section) => {
+        axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'delete',
+          data: { id: section.id }
+        }).then((res) => {
+    
+          var goalsCopy = this.state.challengesArray.slice();
+          for (var i = 0; i < goalsCopy.length; i++) {
+            if (goalsCopy[i].id === section.id) {
+              goalsCopy.splice(i, 1);
+            }
+          }
+  
+          this.setState({challengesArray: goalsCopy});
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges.splice(i,1);
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+    };
+
+    return (
+      <View>
+        <Button onPress={() => completeMe(section)}text={"Complete"} />
+         <Button onPress={() => deleteMe(section)} text={"Delete"} />
       </View>
     );
   }
+
 
   render() {
     console.log(this.props.userobj, "THIS IS CHALL USER")
@@ -81,8 +216,8 @@ export default class Challenges extends React.Component {
       <View>
       <Accordion
         sections={this.state.pendingChallArray}
-        renderHeader={this._renderHeader}
-        renderContent={this._renderContent}
+        renderHeader={this._renderHeaderPend}
+        renderContent={this._renderContentPend}
       />
       <Accordion
         sections={this.state.challengesArray}
@@ -93,6 +228,23 @@ export default class Challenges extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    username: state.login.username,
+    userobj: state.login.userobj
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    success: (username) => dispatch(LoginActions.loginSuccess(username)),
+    updateuser: (userobj) => dispatch(LoginActions.loginUpdate(userobj))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Challenge)
 
 
 
