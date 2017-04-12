@@ -10,32 +10,37 @@ import PopupDialog, {dialogStyle} from 'react-native-popup-dialog'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import ButtonBox from './ButtonBox'
+import Modal from 'react-native-modalbox';
+import LoginActions from '../Redux/LoginRedux'
 
 @connect(store => ({
   userinfo: store.login.username,
   currentPack: store.login.currentPack,
   pack: store.login.userobj.Packs,
   userID: store.login.userobj.id
+  userobj: store.login.userobj,
 }))
 
 class RunTrackerScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      text: 'start',
-      timerOpacity: 0.0,
-      timer: '',
-      start: '',
-      end: '',
-      timeMsg: '',
-      initialPosition: {},
-      lastPosition: {latitude: 33.9759, longitude: -118.3907},
-      coordinates: [],
-      distance: 0,
-      pack: '',
-      threeMileSet: false,
-      totalSeconds: 0
-    };
+      this.state = {
+        text: 'start',
+        timerOpacity: 0.0,
+        timer: '',
+        start: '', 
+        end: '',
+        timeMsg: '',
+        initialPosition: {},
+        lastPosition: {latitude: 33.9759, longitude: -118.3907},
+        coordinates: [], 
+        distance: 0,
+        pack: '',
+        showPackModal: false,
+        mounted: true,
+        threeMileSet: false,
+        totalSeconds: 0
+      };
   }
 
   handleClick = () => {
@@ -148,48 +153,31 @@ class RunTrackerScreen extends React.Component {
         clearInterval(sw);
         clearInterval(geoLoc);
       } else {
-        this.setState({timer: timer});
+        if (this.state.mounted) {
+         this.setState({timer: timer});
+        }
       }
     }, 1000)
-  }
+    } 
 
   stopTimer = () => {
     var endTime = (Date.now() / 1000).toFixed(2);
     var totalSeconds = (endTime - this.state.start).toFixed(2);
     var runHistoryEntry = {
       duration: totalSeconds,
-      distance: this.state.distance, // add distance
+      distance: this.state.distance, 
       coordinates: this.state.coordinates,
       initialPosition: this.state.initialPosition,
       today: Date.now(),
       userID: this.props.userinfo.userId,
       currentPack: this.props.currentPack,
-      //current pack called from props here, not in state
-      //this.props = { dispatch, navigation, userinfo }
     }
-    console.log(runHistoryEntry);
     axios.post('https://lemiz2.herokuapp.com/api/runHistory', { params: {
       runHistoryEntry
     }})
     .then((result) => {
-      console.log("axios sent: " + result)
-
-      // this.setState({
-      //   text: 'start',
-      //   timerOpacity: 0.0,
-      //   timer: '',
-      //   start: '', 
-      //   end: '',
-      //   timeMsg: '',
-      //   initialPosition: {},
-      //   lastPosition: {},
-      //   coordinates: [], 
-      //   distance: 0
-      // })
-      // dispatch(signInSuccess(result.data));
     })
     .catch((err) => {
-      console.log("axios error");
       console.log(err)
     })
     var hours = Math.floor(totalSeconds / 3600);
@@ -221,6 +209,21 @@ class RunTrackerScreen extends React.Component {
 
   componentWillUnmount () {
     navigator.geolocation.clearWatch(this.watchID)
+    this.setState({text: 'start'})
+    this.setState({mounted: false});
+  }
+  showPackSelector() {
+    this.setState({
+      showPackModal: true,
+    })
+  }
+
+  packSetter(name) {
+      this.props.dispatch(LoginActions.setCurrentPack(name))
+      name === null ? name = "Solo Run" : null;
+      this.setState({
+        pack: name
+      })
   }
 
   render () {
@@ -245,7 +248,8 @@ class RunTrackerScreen extends React.Component {
           </PopupDialog>
         </View>
 
-        <TouchableOpacity onPress={() => NavigationActions.pop()} style={{
+        <TouchableOpacity onPress={() => { this.setState({text: 'start'}) 
+          NavigationActions.pop()}} style={{
           position: 'absolute',
           paddingTop: 30,
           paddingHorizontal: 5,
@@ -267,10 +271,15 @@ class RunTrackerScreen extends React.Component {
             }}> 
             {this.state.timer || '0:00'}
             </Text >
-            <Text style={{ fontSize: 25, marginTop: 8, textAlign: 'center' }}>{this.state.distance.toFixed(2) + ' miles' } 
-            <Text style={{ fontSize: 15 }}>{ '\n\n' + this.state.pack } </Text>
+              <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={{ fontSize: 25, marginTop: 0, textAlign: 'center' }}>{this.state.distance.toFixed(2) + ' miles' } 
             </Text>
-
+             <TouchableOpacity onPress={() => this.showPackSelector()}>
+              <Text style={{ color: '#005DB3', fontSize: 15, marginTop: 8 }}>{ '\n\n\n' + 'Pack: ',this.state.pack + '\n'} </Text>
+             </TouchableOpacity>
+             </View>
+             </View>
           </View>
 
 
@@ -306,8 +315,73 @@ class RunTrackerScreen extends React.Component {
             text={this.state.text}
             onPress={this.handleClick}
           />
+       </ScrollView>
+        <Modal style={{justifyContent: 'center',  height: 500, width: 300}} isOpen={this.state.showPackModal} onClosed={() => this.setState({showPackModal: false})} position={"center"} >
+            <Text style={{fontSize: 31, textAlign: 'center', margin: 10}}>Which pack will you be running with? {'\n'}</Text>
+            <TouchableOpacity onPress={() => this.packSetter(null)}>
+            <View style={{padding: 12, flexDirection: 'row'}}>
+              <View style={[{
+              height: 24,
+              width: 24,
+              borderRadius: 12,
+              borderWidth: 2,
+              borderColor: '#000',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }]}>
+              {
+                this.state.pack === 'Solo Run' ?
+                  <View style={{
+                    height: 12,
+                    width: 12,
+                    borderRadius: 6,
+                    backgroundColor: '#000',
+                  }}/>
+                  : null
+              }
+            </View>
+              <Text style={{marginLeft: 12, fontSize: 16}}> Run Solo</Text>
+              </View>
+            </TouchableOpacity>
+              {!this.props.userobj ? <View></View> : this.props.userobj.Packs.map((ele, idx) => {
+                    return (
+                        <TouchableOpacity key={idx} onPress={() => this.packSetter(ele["name"])}>
+                        
+                        <View style={{padding: 12, flexDirection: 'row'}}>
+                        <View style={[{
+                        height: 24,
+                        width: 24,
+                        borderRadius: 12,
+                        borderWidth: 2,
+                        borderColor: '#000',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }]}>
+                        {
+                          this.state.pack === ele.name ?
+                            <View style={{
+                              height: 12,
+                              width: 12,
+                              borderRadius: 6,
+                              backgroundColor: '#000',
+                            }}/>
+                            : null
+                        }
+                      </View>
+                        <Text style={{marginLeft: 12, fontSize: 16}}> {ele["name"]}</Text>
+                        </View>
+                        </TouchableOpacity>
+                    )
+                })
+              }
+                <RoundedButton text={'Confirm'}
+                  onPress={() => {this.setState({showPackModal: false})}}
+                />
+          </Modal> 
 
-        </ScrollView>
+
+ 
+
       </View>
     )
   }
