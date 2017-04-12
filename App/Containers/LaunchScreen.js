@@ -40,9 +40,6 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
         profile,
       }})
       .then((result) => {
-        console.log(result)
-        // dispatch(signInSuccess(result.data));
-        console.log(this.props)
         this.props.updateuser(result.data)
       })
       .catch((err) => {
@@ -68,7 +65,6 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
   }
 
   render () {
-    console.log(this.props.userobj, "THIS IS PROPS")
     return (
       <View style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
@@ -89,89 +85,6 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
             </View>
           </View>
         </ScrollView>
-        {!this.props.userobj ? <View></View> : <Modal style={{justifyContent: 'center', alignItems: 'center', height: 500, width: 300}} isOpen={true} onClosed={() => this.setState({isOpen: false})} position={"center"} >
-            <TouchableOpacity onPress={() => NavigationActions.pop()}>
-            <View style={{flexDirection: 'row'}}>
-              <View style={[{
-              height: 24,
-              width: 24,
-              borderRadius: 12,
-              borderWidth: 2,
-              borderColor: '#000',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }]}>
-              {
-                this.state.selected ?
-                  <View style={{
-                    height: 12,
-                    width: 12,
-                    borderRadius: 6,
-                    backgroundColor: '#000',
-                  }}/>
-                  : null
-              }
-            </View>
-              <Text> Run Solo</Text>
-              </View>
-            </TouchableOpacity>
-              {this.props.userobj.Packs.map((ele, idx) => {
-                    return (
-                        <TouchableOpacity onPress={() => this.packSetter(ele["name"])}>
-                        
-                        <View style={{flexDirection: 'row'}}>
-                        <View style={[{
-                        height: 24,
-                        width: 24,
-                        borderRadius: 12,
-                        borderWidth: 2,
-                        borderColor: '#000',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }]}>
-                        {
-                          false ?
-                            <View style={{
-                              height: 12,
-                              width: 12,
-                              borderRadius: 6,
-                              backgroundColor: '#000',
-                            }}/>
-                            : null
-                        }
-                      </View>
-                        <Text> {ele["name"]}</Text>
-                        </View>
-                        </TouchableOpacity>
-                    )
-                })
-              }
-            <TouchableOpacity onPress={() => NavigationActions.pop()}>
-            <View style={{flexDirection: 'row'}}>
-              <View style={[{
-              height: 24,
-              width: 24,
-              borderRadius: 12,
-              borderWidth: 2,
-              borderColor: '#000',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }]}>
-              {
-                false ?
-                  <View style={{
-                    height: 12,
-                    width: 12,
-                    borderRadius: 6,
-                    backgroundColor: '#000',
-                  }}/>
-                  : null
-              }
-            </View>
-              <Text> Option 2</Text>
-              </View>
-            </TouchableOpacity> 
-          </Modal> }
       </View>
     )
   }
