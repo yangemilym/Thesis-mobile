@@ -39,7 +39,10 @@ class RunTrackerScreen extends React.Component {
         showPackModal: false,
         mounted: true,
         threeMileSet: false,
-        totalSeconds: 0
+        totalSeconds: 0,
+        totalAltitude: null,
+        altitudeVariance: null,
+        lastAlt: null
       };
   }
 
@@ -79,8 +82,16 @@ class RunTrackerScreen extends React.Component {
       latitudeDelta: 0.00922,
       longitudeDelta: 0.00421
     }});
+
+    var newTotalAlt = this.state.totalAltitude + position.coords.altitude
+    if (this.state.lastAlt !== null) {
+      var newAltChange = this.state.altitudeVariance = Math.abs(this.state.lastAlt - position.coords.altitude);
+    }
     this.setState({
-      coordinates: [...this.state.coordinates, {latitude: position.coords.latitude, longitude: position.coords.longitude}]
+      coordinates: [...this.state.coordinates, {latitude: position.coords.latitude, longitude: position.coords.longitude}],
+      totalAltitude: newTotalAlt,
+      lastAlt: position.coords.altitude,
+      altitudeVariance: newAltChange
     })
     },
     (error) => console.log(error),
@@ -89,10 +100,13 @@ class RunTrackerScreen extends React.Component {
 
     var geoLoc = setInterval(() => {
       navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position)
+        if (this.state.coordinates) {
         var tempdistance = this.state.distance + this.calcDistance(position.coords.latitude, position.coords.longitude, this.state.coordinates[this.state.coordinates.length-1].latitude, this.state.coordinates[this.state.coordinates.length-1].longitude, "M")
         this.setState({
           distance: tempdistance
         });
+        }
         this.setState({lastPosition: {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -106,7 +120,7 @@ class RunTrackerScreen extends React.Component {
         if (this.state.totalSeconds > 720 && this.state.distance >= 3 && !this.state.threeMileSet) {
           this.setState({threeMileSet: true});
           var threeMileTime = this.state.totalSeconds;
-          for (var i = 0; i < this.props.pack.length; i++) {
+          for (var i = 0; i < this.props.userobj.Packss.length; i++) {
             if (this.props.pack[i].name === this.props.currentPack && (
                 this.props.pack[i].Users_Packs.bestThreeMile > threeMileTime || this.props.pack[i].Users_Packs.bestThreeMile === null)) {
               axios.put('https://lemiz2.herokuapp.com/api/king', {
@@ -161,6 +175,7 @@ class RunTrackerScreen extends React.Component {
     } 
 
   stopTimer = () => {
+    if (this.props.userinfo) {
     var endTime = (Date.now() / 1000).toFixed(2);
     var totalSeconds = (endTime - this.state.start).toFixed(2);
     var runHistoryEntry = {
@@ -168,6 +183,8 @@ class RunTrackerScreen extends React.Component {
       distance: this.state.distance, 
       coordinates: this.state.coordinates,
       initialPosition: this.state.initialPosition,
+      avgAltitude: (this.state.totalAltitude / this.state.coordinates.length),
+      altitudeVariance: this.state.altitudeVariance,
       today: Date.now(),
       userID: this.props.userinfo.userId,
       currentPack: this.props.currentPack,
@@ -180,6 +197,7 @@ class RunTrackerScreen extends React.Component {
     .catch((err) => {
       console.log(err)
     })
+    }
     var hours = Math.floor(totalSeconds / 3600);
     var minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
     var seconds = totalSeconds - (hours * 3600) - (minutes * 60);
