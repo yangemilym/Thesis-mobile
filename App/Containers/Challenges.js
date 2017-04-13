@@ -69,7 +69,8 @@ class Challenge extends React.Component {
         axios.request({
           url: 'https://lemiz2.herokuapp.com/api/goals',
           method: 'put',
-          data: { id: section.id }
+          data: { id: section.id,
+          status: "accepted" }
         }).then((res) => {
     
           var challCopy = this.state.pendingChallArray.slice();
@@ -81,8 +82,6 @@ class Challenge extends React.Component {
              challaccept.push(challCopy[i])
              challCopy.splice(i, 1);
              
-             
-      
             }
           }
   
@@ -148,7 +147,8 @@ class Challenge extends React.Component {
         axios.request({
           url: 'https://lemiz2.herokuapp.com/api/goals',
           method: 'put',
-          data: { id: section.id }
+          data: { id: section.id,
+          status: "completed" }
         }).then((res) => {
     
           var goalsCopy = this.state.challengesArray.slice();

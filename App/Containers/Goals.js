@@ -73,7 +73,9 @@ console.log(this.props, "THIS IS PROPPPS IN GOALS")
         axios.request({
           url: 'https://lemiz2.herokuapp.com/api/goals',
           method: 'put',
-          data: { id: section.id }
+          data: { 
+            id: section.id,
+            status: "completed"}
         }).then((res) => {
     
           var goalsCopy = this.state.goalsArray.slice();
@@ -141,7 +143,8 @@ console.log(this.props, "THIS IS PROPPPS IN GOALS")
  axios.request({
           url: 'https://lemiz2.herokuapp.com/api/goals',
           method: 'put',
-          data: { id: section.id }
+          data: { id: section.id,
+          status: "completed" }
         }).then((res) => {
     
           var goalsCopy = this.state.genGoalsArray.slice();
