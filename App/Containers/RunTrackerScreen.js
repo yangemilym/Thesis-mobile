@@ -17,7 +17,7 @@ import LoginActions from '../Redux/LoginRedux'
   userinfo: store.login.username,
   currentPack: store.login.currentPack,
   pack: store.login.userobj.Packs,
-  userID: store.login.userobj.id
+  userID: store.login.userobj.id,
   userobj: store.login.userobj,
 }))
 

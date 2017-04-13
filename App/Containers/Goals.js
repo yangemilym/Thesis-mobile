@@ -11,25 +11,9 @@ import ScrollableTabView from 'react-native-scrollable-tab-view'
 import { Button, Card } from 'react-native-material-design';
 import Tabs from 'react-native-tabs';
 import Accordion from 'react-native-collapsible/Accordion';
+import LoginActions from '../Redux/LoginRedux'
 
-
-// const SECTIONS = [
-//   {
-//     title: 'First',
-//     content: 'Lorem ipsum...',
-//   },
-//   {
-//     title: 'Second',
-//     content: 'Lorem ipsum...',
-//   }
-// ];
-
-@connect(store => ({
-  userobj: store.login.userobj
-}))
-
-
-export default class Goals extends React.Component {
+class Goals extends React.Component {
   constructor(props) {
     super(props);
 
@@ -37,6 +21,9 @@ export default class Goals extends React.Component {
     const genGoals =[];
     const compGoals= [];
 
+//- taking userobj from store & filtering the Challenges array by 
+//mygoals, generated goals and completed goals
+console.log(this.props, "THIS IS PROPPPS IN GOALS")
     for (var i=0; i<this.props.userobj.Challenges.length; i++) {
       if (this.props.userobj.Challenges[i].source !== null) {
       } else {
@@ -49,14 +36,16 @@ export default class Goals extends React.Component {
         }
       }
     }
-
+//setting state to be equaled to the filtered arrays from above
       this.state = {
         goalsArray: goals,
         genGoalsArray: genGoals,
         compGoalsArray: compGoals
     };
-  //  this.completeMe = this.completeMe.bind(this);
-   
+//binding this 
+  this._renderContent = this._renderContent.bind(this);
+  this._renderContentGen = this._renderContentGen.bind(this);
+
 }
 
 
@@ -77,28 +66,141 @@ export default class Goals extends React.Component {
   }
 
   _renderContent(section) {
+    // console.log(this.state.compGoalsArray,"THIS IS COMPLETED GOALLSSS ")
 
-completeMe = () => {
- console.log("hi")
-};
+    completeMe = (section) => {
 
-deleteMe = () => {
- console.log("deleted")
-};
+        axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'put',
+          data: { 
+            id: section.id,
+            status: "completed"}
+        }).then((res) => {
+    
+          var goalsCopy = this.state.goalsArray.slice();
+          for (var i = 0; i < goalsCopy.length; i++) {
+            if (goalsCopy[i].id === section.id) {
+             goalsCopy[i].status = 'completed';
+             goalsCopy.splice(i, 1);
+      
+            }
+          }
+  
+          this.setState({goalsArray: goalsCopy});
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges[i].status = 'completed';
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+    };
+
+    deleteMe = (section) => {
+        axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'delete',
+          data: { id: section.id }
+        }).then((res) => {
+    
+          var goalsCopy = this.state.goalsArray.slice();
+          for (var i = 0; i < goalsCopy.length; i++) {
+            if (goalsCopy[i].id === section.id) {
+              goalsCopy.splice(i, 1);
+            }
+          }
+  
+          this.setState({goalsArray: goalsCopy});
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges.splice(i,1);
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+    };
 
     return (
       <View>
-        <Button onPress={() => completeMe()}text={"Complete"} />
-         <Button onPress={() => deleteMe()} text={"Delete"} />
+        <Button onPress={() => completeMe(section)}text={"Complete"} />
+         <Button onPress={() => deleteMe(section)} text={"Delete"} />
       </View>
     );
   }
 
     _renderContentGen(section) {
+          // console.log(this.state.compGoalsArray,"THIS IS COMPLETED GOALLSSS ")
+
+    completeMe = (section) => {
+
+ axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'put',
+          data: { id: section.id,
+          status: "completed" }
+        }).then((res) => {
+    
+          var goalsCopy = this.state.genGoalsArray.slice();
+          for (var i = 0; i < goalsCopy.length; i++) {
+            if (goalsCopy[i].id === section.id) {
+             goalsCopy[i].status = 'completed';
+             goalsCopy.splice(i, 1);
+      
+            }
+          }
+  
+          this.setState({genGoalsArray: goalsCopy});
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges[i].status = 'completed';
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+    };
+
+    deleteMe = (section) => {
+        axios.request({
+          url: 'https://lemiz2.herokuapp.com/api/goals',
+          method: 'delete',
+          data: { id: section.id }
+        }).then((res) => {
+          console.log(this.state.genGoalsArray, "This is gengoals")
+          var goalsCopy = this.state.genGoalsArray.slice();
+          for (var i = 0; i < goalsCopy.length; i++) {
+            if (goalsCopy[i].id === section.id) {
+              goalsCopy.splice(i, 1);
+            }
+          }
+  
+          this.setState({genGoalsArray: goalsCopy});
+
+          var newUserObj = JSON.parse(JSON.stringify(this.props.userobj))
+    
+          for (var i= 0; i < newUserObj.Challenges.length ; i++){
+            if(newUserObj.Challenges[i].id === section.id){
+              newUserObj.Challenges.splice(i,1);
+            }
+          }
+          this.props.updateuser(newUserObj)
+        })
+    };
+
+
     return (
       <View>
-        <Button text={"Button"} />
-         <Button text={"Button"} />
+        <Button onPress={() => completeMe(section)}text={"Complete"} />
+         <Button onPress={() => deleteMe(section)} text={"Delete"} />
       </View>
     );
   }
@@ -106,9 +208,8 @@ deleteMe = () => {
 
 
   render() {
-    console.log(this.props.userobj, "THIS IS CHALL USER")
-    console.log(this.state, "THIS IS STATE ")
-
+    // console.log(this.props.userobj, "THIS IS CHALL USER")
+    // console.log(this.state, "THIS IS STATE ")
     return (
       <View>
       <Accordion
@@ -126,8 +227,22 @@ deleteMe = () => {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    username: state.login.username,
+    userobj: state.login.userobj
 
+  }
+}
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    success: (username) => dispatch(LoginActions.loginSuccess(username)),
+    updateuser: (userobj) => dispatch(LoginActions.loginUpdate(userobj))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Goals)
 
 
 
