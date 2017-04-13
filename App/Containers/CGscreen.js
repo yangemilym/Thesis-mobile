@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { View, ScrollView, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator } from 'react-native'
 import { Images } from './DevTheme'
 import RoundedButton from '../../App/Components/RoundedButton'
 import { Actions as NavigationActions } from 'react-native-router-flux'
@@ -12,22 +12,49 @@ import RunTrackerScreen from './RunTrackerScreen'
 import GoalsPage from './Goals'
 import ChallengePage from './Challenges'
 import Tabs from 'react-native-tabs';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 @connect(store => ({
-  userinfo: store.login.username
+  userinfo: store.login.username,
+  userobj: store.login.userobj
 }))
 
 class CGscreen extends React.Component {
   constructor(props) {
-    super(props);
+    super();
       this.state = {
-   
+        animating: true
       };
     }
 
+  // componentDidMount() {
+  //   setInterval(() => {
+  //     this.setState({
+  //       visible: !this.state.visible
+  //     });
+  //   }, 3000);
+  // }
 
+   closeActivityIndicator() {
+      setTimeout(() => {
+         this.setState({animating: false});
+      }, 3000);
+   }
+   componentDidMount() {
+      this.closeActivityIndicator();
+   }
 
   render () {
+        if(!this.props.userobj){
+      return (
+      <View>
+         <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            animating = {this.state.animating}/>
+      </View>
+      )
+    } 
     return (
       <View>
        <TouchableOpacity onPress={() => NavigationActions.pop()} style={{
@@ -51,7 +78,8 @@ class CGscreen extends React.Component {
 
     )
   }
-}
+  }
+
 
 export default StackNavigator({
   CGscreen: {screen: CGscreen}

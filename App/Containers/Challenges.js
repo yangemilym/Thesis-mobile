@@ -48,7 +48,7 @@ class Challenge extends React.Component {
   _renderHeaderPend(section) {
     return (
       <View>
-         <Card style={{backgroundColor: "blue" }}><Card.Body><Text style={{color:"white"}}>Pending{section.description}</Text></Card.Body></Card>
+         <Card style={{backgroundColor: "blue" }}><Card.Body><Text style={{color:"white"}}>Pending: {section.description}</Text></Card.Body></Card>
       </View>
     );
   }
@@ -212,6 +212,8 @@ class Challenge extends React.Component {
   render() {
     console.log(this.props.userobj, "THIS IS CHALL USER")
     console.log(this.state, "THIS IS STATE ")
+
+
     return (
       <View>
       <Accordion
