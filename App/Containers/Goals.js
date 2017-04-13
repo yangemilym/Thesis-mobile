@@ -210,6 +210,7 @@ console.log(this.props, "THIS IS PROPPPS IN GOALS")
   render() {
     // console.log(this.props.userobj, "THIS IS CHALL USER")
     // console.log(this.state, "THIS IS STATE ")
+    
     return (
       <View>
       <Accordion
