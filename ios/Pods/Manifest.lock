@@ -14,6 +14,9 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - HockeySDK (4.1.4):
+    - HockeySDK/DefaultLib (= 4.1.4)
+  - HockeySDK/DefaultLib (4.1.4)
   - Lock (1.28.2):
     - Lock/Core (= 1.28.2)
     - Lock/UI (= 1.28.2)
@@ -41,6 +44,7 @@ PODS:
     - SimpleKeychain (~> 0.3)
 
 DEPENDENCIES:
+  - HockeySDK
   - Lock (~> 1.26)
   - Lock/Email
   - Lock/SMS
@@ -48,11 +52,12 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  HockeySDK: 78a3f8bb9100277b531defc56c970369a3ca267a
   Lock: 742c21d94c8a1805a3fb8d7e8a5d5e873b14ec47
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   SimpleKeychain: b50cef3b87939d480ea1143425c00f5b4b70fe21
   TouchIDAuth: 0cf861f58a2cacfc1c12cb02de4850729d943c81
 
-PODFILE CHECKSUM: e2886a4fea732c82cc0a055b53c6d1facb221b53
+PODFILE CHECKSUM: 3783736db6793afb450ae4f6920cdcbcbf57f69d
 
 COCOAPODS: 1.2.0

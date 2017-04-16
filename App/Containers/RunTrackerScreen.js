@@ -16,8 +16,6 @@ import LoginActions from '../Redux/LoginRedux'
 @connect(store => ({
   userinfo: store.login.username,
   currentPack: store.login.currentPack,
-  pack: store.login.userobj.Packs,
-  userID: store.login.userobj.id,
   userobj: store.login.userobj,
 }))
 
@@ -120,13 +118,13 @@ class RunTrackerScreen extends React.Component {
         if (this.state.totalSeconds > 720 && this.state.distance >= 3 && !this.state.threeMileSet) {
           this.setState({threeMileSet: true});
           var threeMileTime = this.state.totalSeconds;
-          for (var i = 0; i < this.props.userobj.Packss.length; i++) {
-            if (this.props.pack[i].name === this.props.currentPack && (
-                this.props.pack[i].Users_Packs.bestThreeMile > threeMileTime || this.props.pack[i].Users_Packs.bestThreeMile === null)) {
+          for (var i = 0; i < this.props.userobj.Packs.length; i++) {
+            if (this.props.userobj.Packs[i].name === this.props.currentPack && (
+                this.userobj.Packs[i].Users_Packs.bestThreeMile > threeMileTime || this.userobj.Packs[i].Users_Packs.bestThreeMile === null)) {
               axios.put('https://lemiz2.herokuapp.com/api/king', {
                 bestThreeMile: threeMileTime,
-                PackId: this.props.pack[i].id,
-                UserId: this.props.userID
+                PackId: this.userobj.Packs[i].id,
+                UserId: this.userobj.id
               })
               .then((result) => {
                 console.log("axios sent: " + result)
