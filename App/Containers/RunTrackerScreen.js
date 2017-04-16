@@ -118,6 +118,16 @@ class RunTrackerScreen extends React.Component {
         if (this.state.totalSeconds > 720 && this.state.distance >= 3 && !this.state.threeMileSet) {
           this.setState({threeMileSet: true});
           var threeMileTime = this.state.totalSeconds;
+            axios.put('https://lemiz2.herokuapp.com/api/soloking', {
+                bestThreeMile: threeMileTime,
+                UserId: this.props.userobj.id
+              })
+              .then((result) => {
+                console.log("axios sent: " + result)
+              })
+              .catch((err) => {
+                console.log("Put Error: ", err)
+              })
           for (var i = 0; i < this.props.userobj.Packs.length; i++) {
             if (this.props.userobj.Packs[i].name === this.props.currentPack && (
                 this.userobj.Packs[i].Users_Packs.bestThreeMile > threeMileTime || this.userobj.Packs[i].Users_Packs.bestThreeMile === null)) {
