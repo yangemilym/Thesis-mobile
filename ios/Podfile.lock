@@ -44,7 +44,7 @@ PODS:
     - SimpleKeychain (~> 0.3)
 
 DEPENDENCIES:
-  - HockeySDK (~> 4.1.4)
+  - HockeySDK
   - Lock (~> 1.26)
   - Lock/Email
   - Lock/SMS
@@ -58,6 +58,6 @@ SPEC CHECKSUMS:
   SimpleKeychain: b50cef3b87939d480ea1143425c00f5b4b70fe21
   TouchIDAuth: 0cf861f58a2cacfc1c12cb02de4850729d943c81
 
-PODFILE CHECKSUM: f2e6f1a9379321e984ecc10e70d536e271530a49
+PODFILE CHECKSUM: 3783736db6793afb450ae4f6920cdcbcbf57f69d
 
 COCOAPODS: 1.2.0
