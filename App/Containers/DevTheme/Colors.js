@@ -1,6 +1,7 @@
 const colors = {
   transparent: 'rgba(0,0,0,0)',
-  background: 'white',
+  // background: 'white',
+  background: require('../Images/waves.png'),
   silver: '#F7F7F7',
   frost: '#D8D8D8',
   windowTint: 'rgba(0, 0, 0, 0.4)',
