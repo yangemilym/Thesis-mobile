@@ -24,6 +24,10 @@ const images = {
   colorfulRunner: require('../Images/Icons/colorful-runner.jpg'),
   colorRun: require('../Images/Icons/colorrunlarge.png'),
   // badge: require('../Images/Icons/badgered.png')
+  circle2: require('../Images/Icons/circle2.png'),
+  circle5: require('../Images/Icons/circle5.png'),
+  CC2: require('../Images/Icons/CC2.png'),
+  CC5: require('../Images/Icons/CC5.png')
 }
 
 export default images;
