@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native'
 import { Metrics, Colors } from '../../Themes/'
 
 const navButton = {
-  backgroundColor: Colors.transparent,
+  // backgroundColor: Colors.transparent,
   justifyContent: 'center'
 }
 

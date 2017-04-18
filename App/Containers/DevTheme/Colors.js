@@ -1,10 +1,10 @@
 const colors = {
-  transparent: 'rgba(0,0,0,0)',
+  transparent: 'red',
   // background: 'white',
   background: require('../Images/waves.png'),
   silver: '#F7F7F7',
   frost: '#D8D8D8',
-  windowTint: 'rgba(0, 0, 0, 0.4)',
+  windowTint: 'red',
   panther: '#161616',
   charcoal: '#595959',
   snow: 'white',
