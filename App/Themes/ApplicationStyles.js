@@ -9,7 +9,7 @@ const ApplicationStyles = {
   screen: {
     mainContainer: {
       flex: 1,
-      backgroundColor: 'red',
+      // backgroundColor: 'red',
     },
     backgroundImage: {
       position: 'absolute',
@@ -66,7 +66,7 @@ const ApplicationStyles = {
   sectionTitle: {
     ...Fonts.style.h4,
     color: Colors.coal,
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     padding: Metrics.smallMargin,
     marginTop: Metrics.smallMargin,
     marginHorizontal: Metrics.baseMargin,
