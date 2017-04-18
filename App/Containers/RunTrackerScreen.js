@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { View, ScrollView, Text, TouchableOpacity, TouchableHighlight, Image, StyleSheet } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 import { Images } from '../Themes'
 import MapView from 'react-native-maps'
@@ -24,7 +24,7 @@ class RunTrackerScreen extends React.Component {
     super(props);
       this.state = {
         text: 'start',
-        timerOpacity: 0.0,
+        timerOpacity: 1.0,
         timer: '',
         start: '', 
         end: '',
@@ -33,7 +33,7 @@ class RunTrackerScreen extends React.Component {
         lastPosition: {latitude: 33.9759, longitude: -118.3907},
         coordinates: [], 
         distance: 0,
-        pack: '',
+        pack: "Solo Run",
         showPackModal: false,
         mounted: true,
         threeMileSet: false,
