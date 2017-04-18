@@ -52,7 +52,7 @@ console.log(this.props, "THIS IS PROPPPS IN GOALS")
   _renderHeader(section) {
     return (
       <View>
-        <Card style={{backgroundColor: "purple" }}><Card.Body><Text style={{color:"white"}}> My Goals: {section.description}</Text></Card.Body></Card>
+        <Card style={{backgroundColor: "#008080" }}><Card.Body><Text style={{color:"white"}}> My Goals: {section.description}</Text></Card.Body></Card>
       </View>
     );
   }
@@ -60,7 +60,7 @@ console.log(this.props, "THIS IS PROPPPS IN GOALS")
   _renderHeaderGen(section) {
     return (
       <View>
-         <Card><Card.Body><Text>Rabbit Goals: {section.description}</Text></Card.Body></Card>
+         <Card style={{backgroundColor: "#FFD769" }}><Card.Body><Text>Rabbit Goals: {section.description}</Text></Card.Body></Card>
       </View>
     );
   }

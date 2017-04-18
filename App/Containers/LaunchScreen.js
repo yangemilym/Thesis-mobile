@@ -66,14 +66,19 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
 
   render () {
     return (
-      <View style={styles.mainContainer}>
+      <View style={{flex: 1, flexShrink: 1/2, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 1, flexShrink: 1/2, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
         <Image source={Images.waves} style={styles.backgroundImage} resizeMode='repeat' />
         <ScrollView style={styles.container}>
+          
           <View style={styles.centered}>
-            <Image source={Images.launch} style={styles.logo} />
+              <View style={{flex: 1/20}}><Text></Text></View>
+
+            <Image source={Images.launch} resizeMode='contain' style={styles.logo} />
           </View>
-          <View style={{paddingTop: 25}}>
-            <Text style={{textAlign: "center", fontSize: 30, fontWeight: "bold", fontFamily: "Avenir"}}> Rabbit Fitness </Text>
+          <View style={{paddingTop: 15, flex: 1, flexShrink: 1/4}}>
+          
+            <Text style={{textAlign: "center", backgroundColor: 'rgba(0,0,0,0)', fontSize: 30, fontWeight: "bold", fontFamily: "Avenir"}}> Rabbit Fitness </Text>
           </View>
           {/*<View style={{paddingTop: 25}}>
           <RoundedButton
@@ -81,19 +86,22 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
             onPress={NavigationActions.runTracker}
           />
           </View>*/}
-          <View style={{paddingTop: 25}}>
-            <View>
+          <View style={{flex: 2, flexShrink: 1, flexDirection: 'column', alignItems: 'center'}}>
+              <View style={{flex: 1/25}}><Text></Text></View>
+            <View style={{flex: 1, flexDirection: 'row', flexShrink: 2, alignItems: 'stretch'}}>
               <TouchableOpacity onPress={NavigationActions.cgscreen}>
-                <Image source={Images.CC2} style={{height:127, width:127, marginLeft: 40}}/>
+                <View style={{flex: 2, flexShrink: 1/2}}><Image source={Images.CC2} resizeMode={"contain"} style={{height:127, width:127}}/></View>
               </TouchableOpacity>
               <TouchableOpacity onPress={NavigationActions.runTracker}>
-                <Image source={Images.CC5} style={{height:170, width:170, marginLeft: 170}}/>
+                <View style={{backgroundColor: 'rgba(0,0,0,0)'}}><Text></Text></View><View style={{backgroundColor: 'rgba(0,0,0,0)'}}><Text></Text></View><View style={{backgroundColor: 'rgba(0,0,0,0)'}}><Text></Text></View><View style={{backgroundColor: 'rgba(0,0,0,0)'}}><Text></Text></View>
+              <View style={{flex: 2}}><Image source={Images.CC5} resizeMode={"contain"} style={{height:170, width:170}}/></View>
               </TouchableOpacity>
               {/*<ButtonBox onPress={NavigationActions.packsScreen} style={styles.componentButton} image={Images.colorRun} text="View my Packs" />*/}
               {/*<ButtonBox onPress={NavigationActions.cgscreen} style={styles.usageButton} image={Images.home} text='Challenges & Goals' />*/}
             </View>
           </View>
         </ScrollView>
+      </View>
       </View>
     )
   }

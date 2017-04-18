@@ -40,7 +40,8 @@ class RunTrackerScreen extends React.Component {
         totalSeconds: 0,
         totalAltitude: null,
         altitudeVariance: null,
-        lastAlt: null
+        lastAlt: null,
+        runHistoryEntry: null
       };
   }
 
@@ -182,6 +183,22 @@ class RunTrackerScreen extends React.Component {
     }, 1000)
     } 
 
+  saveToHistory() {
+    if (this.state.runHistoryEntry) {
+      axios.post('https://lemiz2.herokuapp.com/api/runHistory', { params: {
+        runHistoryEntry: this.state.runHistoryEntry
+      }})
+      .then((result) => {
+        this.setState({
+          runHistoryEntry: null
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+  }
+
   stopTimer = () => {
     if (this.props.userinfo) {
     var endTime = (Date.now() / 1000).toFixed(2);
@@ -197,13 +214,8 @@ class RunTrackerScreen extends React.Component {
       userID: this.props.userinfo.userId,
       currentPack: this.props.currentPack,
     }
-    axios.post('https://lemiz2.herokuapp.com/api/runHistory', { params: {
+    this.setState({
       runHistoryEntry
-    }})
-    .then((result) => {
-    })
-    .catch((err) => {
-      console.log(err)
     })
     }
     var hours = Math.floor(totalSeconds / 3600);
@@ -212,7 +224,7 @@ class RunTrackerScreen extends React.Component {
     if (totalSeconds >= 3600) {
       var timeMsg = 'You ran ' + this.state.distance.toFixed(2) + ' miles in ' + hours + ' hr' + minutes + ' min ' + seconds.toFixed(2) + ' sec \n';
     } else {
-      var timeMsg = 'You ran ' + this.state.distance.toFixed(2) + ' miles in ' + minutes + ' min ' + seconds.toFixed(2) + ' sec \n';
+      var timeMsg = 'You ran ' + this.state.distance.toFixed(2) + ' miles \n in ' + minutes + ' min ' + seconds.toFixed(2) + ' sec \n';
     }
     this.setState({text: 'start', timerOpacity: 0.0, timer: '0:00', distance: 0, end: endTime, timeMsg, coordinates: []});
     this.popupDialog.show();
@@ -267,8 +279,9 @@ class RunTrackerScreen extends React.Component {
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
           >
           <View >
+            <View style={{alignItems: 'flex-end'}}><Text onPress={() => {this.popupDialog.dismiss()}} style={{fontSize: 28, color: 'red'}}>x </Text></View>
             <Text style={styles.popupText}>{this.state.timeMsg}</Text>
-            <RoundedButton text="okay" onPress={() => {this.popupDialog.dismiss()}}> 
+            <RoundedButton text="Save to History" onPress={() => {this.popupDialog.dismiss(); this.saveToHistory()}}> 
             </RoundedButton>
           </View>
           </PopupDialog>
@@ -343,7 +356,7 @@ class RunTrackerScreen extends React.Component {
             onPress={this.handleClick}
           />
        </ScrollView>
-        <Modal style={{justifyContent: 'center',  height: 500, width: 300}} isOpen={this.state.showPackModal} onClosed={() => this.setState({showPackModal: false})} position={"center"} >
+        <Modal style={{justifyContent: 'center', borderRadius: 7, borderColor: 'teal', borderWidth: 3, height: 500, width: 300}} isOpen={this.state.showPackModal} onClosed={() => this.setState({showPackModal: false})} position={"center"} >
             <Text style={{fontSize: 31, textAlign: 'center', margin: 10}}>Which pack will you be running with? {'\n'}</Text>
             <TouchableOpacity onPress={() => this.packSetter(null)}>
             <View style={{padding: 12, flexDirection: 'row'}}>

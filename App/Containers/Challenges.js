@@ -49,7 +49,7 @@ class Challenge extends React.Component {
   _renderHeaderPend(section) {
     return (
       <View>
-         <Card style={{backgroundColor: "blue" }}><Card.Body><Text style={{color:"white"}}>Pending: {section.description}</Text></Card.Body></Card>
+         <Card style={{backgroundColor: "gray" }}><Card.Body><Text style={{color:"white"}}>Pending: {section.description}</Text></Card.Body></Card>
       </View>
     );
   }
@@ -57,7 +57,7 @@ class Challenge extends React.Component {
   _renderHeader(section) {
     return (
       <View>
-         <Card><Card.Body><Text>Accepted: {section.description}</Text></Card.Body></Card>
+         <Card style={{backgroundColor: "#FF8C69" }}><Card.Body><Text>Accepted: {section.description}</Text></Card.Body></Card>
       </View>
     );
   }
