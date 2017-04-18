@@ -12,6 +12,7 @@ import { Button, Card } from 'react-native-material-design';
 import Tabs from 'react-native-tabs';
 import Accordion from 'react-native-collapsible/Accordion';
 import LoginActions from '../Redux/LoginRedux'
+import styles from './Styles/RunTrackerScreenStyles'
 
 
 class Challenge extends React.Component {

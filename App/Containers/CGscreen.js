@@ -13,6 +13,7 @@ import GoalsPage from './Goals'
 import ChallengePage from './Challenges'
 import Tabs from 'react-native-tabs';
 import Spinner from 'react-native-loading-spinner-overlay';
+import styles from './Styles/RunTrackerScreenStyles'
 
 @connect(store => ({
   userinfo: store.login.username,
@@ -48,6 +49,7 @@ class CGscreen extends React.Component {
         if(!this.props.userobj){
       return (
       <View>
+          <Image source={Images.waves2} style={styles.backgroundImage} resizeMode='repeat' />
          <ActivityIndicator
             size="large"
             color="#0000ff"
@@ -57,6 +59,8 @@ class CGscreen extends React.Component {
     } 
     return (
       <View>
+        <Image source={Images.waves2} style={styles.backgroundImage} resizeMode='repeat' />
+
        <TouchableOpacity onPress={() => NavigationActions.pop()} style={{
           position: 'absolute',
           paddingTop: 0,
@@ -65,10 +69,10 @@ class CGscreen extends React.Component {
         }}>
           <Image source={Images.backButton} />
         </TouchableOpacity>
-      <ScrollView>
+      <ScrollView >
 
       <View>
-         <ScrollableTabView>
+         <ScrollableTabView style={{backgroundColor: 'rgba(0,0,0,0)'}}>
         <GoalsPage tabLabel="Goals"/>
         <ChallengePage tabLabel="Challenges"/>
         </ScrollableTabView>

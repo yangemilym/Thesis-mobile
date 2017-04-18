@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, ScrollView, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import { StackNavigator } from 'react-navigation'
-import { Images } from './DevTheme'
+import { Images } from '../Themes'
 import MapView from 'react-native-maps'
 import styles from './Styles/RunTrackerScreenStyles'
 import RoundedButton from '../../App/Components/RoundedButton'
@@ -273,6 +273,8 @@ class RunTrackerScreen extends React.Component {
           </View>
           </PopupDialog>
         </View>
+        
+        <Image source={Images.waves2} style={styles.backgroundImage} resizeMode='repeat' />
 
         <TouchableOpacity onPress={() => { this.setState({text: 'start'}) 
           NavigationActions.pop()}} style={{
@@ -284,9 +286,8 @@ class RunTrackerScreen extends React.Component {
           <Image source={Images.backButton} />
         </TouchableOpacity>
 
-        <ScrollView style={styles.container}>
-
-          <View style={{ flexDirection: 'row', flex: 1 , height: 90, opacity: this.state.timerOpacity}}>
+        <ScrollView>
+          <View style={{backgroundColor: 'rgba(0,0,0,0)', flexDirection: 'row', flex: 1 , height: 90, opacity: this.state.timerOpacity}}>
             <Text style={{
               width: 200, 
               fontSize: 50, 
@@ -416,7 +417,7 @@ class RunTrackerScreen extends React.Component {
 export default StackNavigator({
   RunTrackerScreen: {screen: RunTrackerScreen}
 }, {
-  headerMode: 'screen',
+  headerMode: 'float',
   initialRouteName: 'RunTrackerScreen',
   navigationOptions: {
     header: {

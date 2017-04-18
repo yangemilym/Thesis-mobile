@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Metrics.smallMargin,
-    backgroundColor: Colors.transparent,
+    // backgroundColor: Colors.transparent,
     flexDirection: 'row',
     width: Metrics.screenWidth - Metrics.baseMargin
   },
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     left: Metrics.doubleBaseMargin,
     alignSelf: 'center',
     color: Colors.snow,
-    backgroundColor: Colors.transparent
+    // backgroundColor: Colors.transparent
   },
   cancelButton: {
     alignItems: 'center',
