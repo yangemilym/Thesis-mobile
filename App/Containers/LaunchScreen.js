@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, TouchableOpacity, Text, Image, View } from 'react-native'
+import { ScrollView, TouchableOpacity, Text, Image, View, TouchableHighlight } from 'react-native'
 import { Images } from '../Themes'
 import ButtonBox from './ButtonBox'
 import {Actions as NavigationActions } from 'react-native-router-flux'
@@ -73,15 +73,24 @@ var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 
             <Image source={Images.launch} style={styles.logo} />
           </View>
           <View style={{paddingTop: 25}}>
+            <Text style={{textAlign: "center", fontSize: 30, fontWeight: "bold", fontFamily: "Avenir"}}> Rabbit Fitness </Text>
+          </View>
+          {/*<View style={{paddingTop: 25}}>
           <RoundedButton
             text={"LET'S RUN!"}
             onPress={NavigationActions.runTracker}
           />
-          </View>
+          </View>*/}
           <View style={{paddingTop: 25}}>
-            <View style={styles.buttonsContainer}>
-              <ButtonBox onPress={NavigationActions.packsScreen} style={styles.componentButton} image={Images.colorRun} text="View my Packs" />
-              <ButtonBox onPress={NavigationActions.cgscreen} style={styles.usageButton} image={Images.home} text='Challenges & Goals' />
+            <View>
+              <TouchableOpacity onPress={NavigationActions.cgscreen}>
+                <Image source={Images.CC2} style={{height:127, width:127, marginLeft: 40}}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={NavigationActions.runTracker}>
+                <Image source={Images.CC5} style={{height:170, width:170, marginLeft: 170}}/>
+              </TouchableOpacity>
+              {/*<ButtonBox onPress={NavigationActions.packsScreen} style={styles.componentButton} image={Images.colorRun} text="View my Packs" />*/}
+              {/*<ButtonBox onPress={NavigationActions.cgscreen} style={styles.usageButton} image={Images.home} text='Challenges & Goals' />*/}
             </View>
           </View>
         </ScrollView>
