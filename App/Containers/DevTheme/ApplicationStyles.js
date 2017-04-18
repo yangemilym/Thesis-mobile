@@ -9,34 +9,31 @@ const ApplicationStyles = {
   screen: {
     mainContainer: {
       flex: 1,
+      justifyContent: 'space-around'
     },
     backgroundImage: {
       position: 'absolute',
       top: 0,
       left: 0,
       bottom: 0,
-      right: 0
+      right: 0,
+      justifyContent: 'space-around'
     },
     container: {
       flex: 1,
-      paddingTop: Metrics.baseMargin,
+      alignItems: 'center',
+      justifyContent: 'flex-end'
     },
     section: {
-      margin: Metrics.section,
-      padding: Metrics.baseMargin
     },
     sectionText: {
       ...Fonts.normal,
-      paddingVertical: Metrics.doubleBaseMargin,
       // color: Colors.snow,
-      marginVertical: Metrics.smallMargin,
+      justifyContent: 'space-around',
       textAlign: 'center'
     },
     subtitle: {
       // color: Colors.snow,
-      padding: Metrics.smallMargin,
-      marginBottom: Metrics.smallMargin,
-      marginHorizontal: Metrics.smallMargin
     },
     titleText: {
       ...Fonts.style.h2,
@@ -49,7 +46,7 @@ const ApplicationStyles = {
     popup: {
       width: '90%',
       height: 260,
-      borderColor: 'salmon',
+      borderColor: 'teal',
       borderWidth: 3
     },
     popupText: {
@@ -59,21 +56,16 @@ const ApplicationStyles = {
     }
   },
   darkLabelContainer: {
-    padding: Metrics.smallMargin,
-    paddingBottom: Metrics.doubleBaseMargin,
-    borderBottomColor: Colors.border,
-    borderBottomWidth: 1,
-    marginBottom: Metrics.baseMargin
+      justifyContent: 'space-around'
   },
   darkLabel: {
     fontFamily: Fonts.type.bold,
     color: Colors.snow
   },
   groupContainer: {
-    margin: Metrics.smallMargin,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
   }
 }
 

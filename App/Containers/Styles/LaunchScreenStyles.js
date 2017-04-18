@@ -5,7 +5,7 @@ import { Colors, Fonts } from '../DevTheme/'
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
-    marginBottom: 36,
+    marginBottom: 5,
     paddingTop: Metrics.section
   },
   logo: {
@@ -19,7 +19,10 @@ export default StyleSheet.create({
     flex: 1
   },
   centered: {
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection: 'column',
+    flex: 2,
+    justifyContent: 'flex-end',
   },
   componentButton: {
     borderColor: Colors.border,
@@ -46,7 +49,6 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontFamily: Fonts.base,
     fontSize: 14,
-    marginHorizontal: Metrics.baseMargin,
     lineHeight: 30,
     marginVertical: Metrics.doubleBaseMargin,
     color: Colors.text
