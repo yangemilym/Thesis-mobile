@@ -100,7 +100,7 @@ class RunTrackerScreen extends React.Component {
     var geoLoc = setInterval(() => {
       navigator.geolocation.getCurrentPosition((position) => {
         console.log(position)
-        if (this.state.coordinates) {
+        if (this.state.coordinates.length > 1) {
         var tempdistance = this.state.distance + this.calcDistance(position.coords.latitude, position.coords.longitude, this.state.coordinates[this.state.coordinates.length-1].latitude, this.state.coordinates[this.state.coordinates.length-1].longitude, "M")
         this.setState({
           distance: tempdistance
@@ -149,7 +149,7 @@ class RunTrackerScreen extends React.Component {
       },
       (error) => console.log(error),
       {enableHighAccuracy: true, maximumAge: 0, desiredAccuracy: 0}
-    )}, 10000);
+    )}, 1000);
     
     var startTime = (Date.now()/ 1000).toFixed(2);
     this.setState({text: 'stop', timerOpacity: 1.0, start: startTime});
@@ -226,7 +226,7 @@ class RunTrackerScreen extends React.Component {
     } else {
       var timeMsg = 'You ran ' + this.state.distance.toFixed(2) + ' miles \n in ' + minutes + ' min ' + seconds.toFixed(2) + ' sec \n';
     }
-    this.setState({text: 'start', timerOpacity: 0.0, timer: '0:00', distance: 0, end: endTime, timeMsg, coordinates: []});
+    this.setState({text: 'start', timerOpacity: 1.0, timer: '0:00', distance: 0, end: endTime, timeMsg, coordinates: []});
     this.popupDialog.show();
     navigator.geolocation.clearWatch(this.watchID)
   }
