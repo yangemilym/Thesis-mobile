@@ -210,8 +210,17 @@ console.log(this.props, "THIS IS PROPPPS IN GOALS")
   render() {
     // console.log(this.props.userobj, "THIS IS CHALL USER")
     // console.log(this.state, "THIS IS STATE ")
-    
-    return (
+    console.log(this.state.goalsArray, " THIS IS GOALS ARRAY")
+    console.log(this.state.genGoalsArray, " THIS IS GENGOALS ARRAY")
+
+    if(this.state.goalsArray.length === 0 && this.state.genGoalsArray.length === 0){
+      return(
+      <View>
+      <Text style={{paddingTop: 30,  flex: 1, textAlign: "center"}}> Please go to RabbitFitness.run to set some goals! </Text>
+      </View>
+      )
+    } else {
+      return (
       <View>
       <Accordion
         sections={this.state.goalsArray}
@@ -226,6 +235,7 @@ console.log(this.props, "THIS IS PROPPPS IN GOALS")
       </View>
     );
   }
+}
 }
 
 const mapStateToProps = (state) => {

@@ -13,8 +13,14 @@ import Modal from 'react-native-modalbox';
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
 
+
 var Auth0Lock = require('react-native-lock');
-var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 'lameme.auth0.com', allowedConnections: ['facebook']})
+var lock = new Auth0Lock({clientId: 'KhDTuf4lq48s3Db6kEvHHaLGaQCb7ETk', domain: 'lameme.auth0.com', allowedConnections: ['facebook'],
+  theme:  {
+    logo: Images.CC5,
+    primaryColor: '#31324F'
+  }
+})
 
 
  class LaunchScreen extends React.Component {

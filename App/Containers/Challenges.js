@@ -213,7 +213,13 @@ class Challenge extends React.Component {
   render() {
     console.log(this.props.userobj, "THIS IS CHALL USER")
     console.log(this.state, "THIS IS STATE ")
-
+    if(this.state.challengesArray.length === 0 && this.state.pendingChallArray.length === 0){
+      return(
+      <View>
+      <Text style={{paddingTop: 30,  flex: 1, textAlign: "center"}}> Please go to RabbitFitness.run view Challenges! </Text>
+      </View>
+      )
+    } else {
 
     return (
       <View>
@@ -229,6 +235,7 @@ class Challenge extends React.Component {
       />
       </View>
     );
+  }
   }
 }
 
