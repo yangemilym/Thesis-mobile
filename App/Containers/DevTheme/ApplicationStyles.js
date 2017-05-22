@@ -9,59 +9,63 @@ const ApplicationStyles = {
   screen: {
     mainContainer: {
       flex: 1,
-      backgroundColor: Colors.transparent
+      justifyContent: 'space-around'
     },
     backgroundImage: {
       position: 'absolute',
       top: 0,
       left: 0,
       bottom: 0,
-      right: 0
+      right: 0,
+      justifyContent: 'space-around'
     },
     container: {
       flex: 1,
-      paddingTop: Metrics.baseMargin,
-      backgroundColor: Colors.transparent
+      alignItems: 'center',
+      justifyContent: 'flex-end'
     },
     section: {
-      margin: Metrics.section,
-      padding: Metrics.baseMargin
     },
     sectionText: {
       ...Fonts.normal,
-      paddingVertical: Metrics.doubleBaseMargin,
-      color: Colors.snow,
-      marginVertical: Metrics.smallMargin,
+      // color: Colors.snow,
+      justifyContent: 'space-around',
       textAlign: 'center'
     },
     subtitle: {
-      color: Colors.snow,
-      padding: Metrics.smallMargin,
-      marginBottom: Metrics.smallMargin,
-      marginHorizontal: Metrics.smallMargin
+      // color: Colors.snow,
     },
     titleText: {
       ...Fonts.style.h2,
       fontSize: 14,
       color: Colors.text
+    },
+    popupContainer: {
+      zIndex: 100
+    },
+    popup: {
+      width: '90%',
+      height: 260,
+      borderColor: 'teal',
+      borderWidth: 3
+    },
+    popupText: {
+      fontSize: 32,
+      textAlign: 'center',
+      marginTop: 15
     }
   },
   darkLabelContainer: {
-    padding: Metrics.smallMargin,
-    paddingBottom: Metrics.doubleBaseMargin,
-    borderBottomColor: Colors.border,
-    borderBottomWidth: 1,
-    marginBottom: Metrics.baseMargin
+      justifyContent: 'space-around'
   },
   darkLabel: {
     fontFamily: Fonts.type.bold,
     color: Colors.snow
   },
   groupContainer: {
-    margin: Metrics.smallMargin,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
   }
 }
 

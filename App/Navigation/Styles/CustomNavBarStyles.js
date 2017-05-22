@@ -9,7 +9,7 @@ export default {
     height: Metrics.navBarHeight,
     paddingTop: Metrics.smallMargin,
     paddingHorizontal: 5,
-    backgroundColor: Colors.background,
+    // backgroundColor: Colors.background,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
@@ -18,7 +18,7 @@ export default {
     textAlign: 'center',
     color: Colors.snow,
     marginTop: Metrics.doubleBaseMargin,
-    backgroundColor: Colors.transparent,
+    // backgroundColor: Colors.transparent,
     fontWeight: 'bold',
     fontSize: Fonts.size.input
   },

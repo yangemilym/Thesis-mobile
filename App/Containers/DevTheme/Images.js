@@ -2,6 +2,8 @@
 const images = {
   igniteClear: require('../Images/ignite-logo-transparent.png'),
   tileBg: require('../Images/tile_bg.png'),
+  waves: require('../Images/waves2.png'),
+  waves2: require('../Images/waves.png'),
   background: require('../Images/BG.png'),
   api: require('../Images/Icons/icon-api-testing.png'),
   components: require('../Images/Icons/icon-components.png'),
@@ -13,7 +15,12 @@ const images = {
   chevronRight: require('../Images/Icons/chevron-right.png'),
   hamburger: require('../Images/Icons/hamburger.png'),
   backButton: require('../Images/Icons/back-button.png'),
-  closeButton: require('../Images/Icons/close-button.png')
+  closeButton: require('../Images/Icons/close-button.png'),
+  colorfulRunner: require('../Images/Icons/colorful-runner.jpg'),
+  colorRun: require('../Images/Icons/colorrunlarge.png'),
+  // badge: require('../Images/Icons/badgered.png')
+  circle2: require('../Images/Icons/circle2.png'),
+  circle5: require('../Images/Icons/circle5.png')
 }
 
 export default images

@@ -7,7 +7,7 @@ export default StyleSheet.create({
     aspectRatio: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.eggplant
+    backgroundColor: 'white'
   },
   hamburgerImage: {
     width: Metrics.icons.large,

@@ -7,7 +7,7 @@ export default StyleSheet.create({
     aspectRatio: 0.9,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black'
+    backgroundColor: 'white'
   },
   image: {
     width: Metrics.icons.xl,

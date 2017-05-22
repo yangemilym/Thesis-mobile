@@ -7,7 +7,7 @@ import { StackNavigator } from 'react-navigation'
 import APITestingScreen from './APITestingScreen'
 import ComponentExamplesScreen from './ComponentExamplesScreen'
 import DeviceInfoScreen from './DeviceInfoScreen'
-import PluginExamplesScreen from './PluginExamplesScreen'
+import RunTrackerScreen from './RunTrackerScreen'
 import ThemeScreen from './ThemeScreen'
 import FaqScreen from './FaqScreen'
 
@@ -21,7 +21,7 @@ class PresentationScreen extends React.Component {
   }
 
   openUsage = () => {
-    this.props.navigation.navigate('PluginExamplesScreen')
+    this.props.navigation.navigate('RunTrackerScreen')
   }
 
   openApi = () => {
@@ -53,9 +53,7 @@ class PresentationScreen extends React.Component {
           <Image source={Images.closeButton} />
         </TouchableOpacity>
         <ScrollView showsVerticalScrollIndicator={false} bounces={false} style={styles.container}>
-          <View style={styles.centered}>
-            <Image source={Images.igniteClear} style={styles.logo} />
-          </View>
+          <View style={styles.centered} />
 
           <Text style={styles.sectionText}>
             Default screens for development, debugging, and alpha testing
@@ -87,7 +85,7 @@ export default StackNavigator({
   APITestingScreen: {screen: APITestingScreen},
   ComponentExamplesScreen: {screen: ComponentExamplesScreen},
   DeviceInfoScreen: {screen: DeviceInfoScreen},
-  PluginExamplesScreen: {screen: PluginExamplesScreen},
+  RunTrackerScreen: {screen: RunTrackerScreen},
   ThemeScreen: {screen: ThemeScreen},
   FaqScreen: {screen: FaqScreen}
 }, {
